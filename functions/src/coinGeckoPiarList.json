@@ -1,0 +1,2969 @@
+{
+	"btc": {
+		"id": "bitcoin"
+	},
+	"eth": {
+		"id": "ethereum"
+	},
+	"usdt": {
+		"id": "tether"
+	},
+	"bnb": {
+		"id": "binancecoin"
+	},
+	"usdc": {
+		"id": "usd-coin"
+	},
+	"xrp": {
+		"id": "ripple"
+	},
+	"ada": {
+		"id": "cardano"
+	},
+	"sol": {
+		"id": "solana"
+	},
+	"luna": {
+		"id": "terra-luna"
+	},
+	"avax": {
+		"id": "avalanche-2"
+	},
+	"dot": {
+		"id": "polkadot"
+	},
+	"doge": {
+		"id": "dogecoin"
+	},
+	"busd": {
+		"id": "binance-usd"
+	},
+	"ust": {
+		"id": "terrausd"
+	},
+	"shib": {
+		"id": "shiba-inu"
+	},
+	"matic": {
+		"id": "matic-network"
+	},
+	"wbtc": {
+		"id": "wrapped-bitcoin"
+	},
+	"cro": {
+		"id": "crypto-com-chain"
+	},
+	"dai": {
+		"id": "dai"
+	},
+	"ltc": {
+		"id": "litecoin"
+	},
+	"near": {
+		"id": "near"
+	},
+	"atom": {
+		"id": "cosmos"
+	},
+	"link": {
+		"id": "chainlink"
+	},
+	"uni": {
+		"id": "uniswap"
+	},
+	"bch": {
+		"id": "bitcoin-cash"
+	},
+	"trx": {
+		"id": "wrapped-tron"
+	},
+	"ftt": {
+		"id": "ftx-token"
+	},
+	"etc": {
+		"id": "ethereum-classic"
+	},
+	"algo": {
+		"id": "algorand"
+	},
+	"xlm": {
+		"id": "stellar"
+	},
+	"mana": {
+		"id": "decentraland"
+	},
+	"btcb": {
+		"id": "bitcoin-bep2"
+	},
+	"vet": {
+		"id": "vechain"
+	},
+	"icp": {
+		"id": "internet-computer"
+	},
+	"hbar": {
+		"id": "hedera-hashgraph"
+	},
+	"egld": {
+		"id": "elrond-erd-2"
+	},
+	"fil": {
+		"id": "filecoin"
+	},
+	"ape": {
+		"id": "apecoin"
+	},
+	"sand": {
+		"id": "the-sandbox"
+	},
+	"axs": {
+		"id": "axie-infinity"
+	},
+	"xmr": {
+		"id": "monero"
+	},
+	"theta": {
+		"id": "theta-token"
+	},
+	"ftm": {
+		"id": "fantom"
+	},
+	"xtz": {
+		"id": "tezos"
+	},
+	"rune": {
+		"id": "thorchain"
+	},
+	"waves": {
+		"id": "waves"
+	},
+	"klay": {
+		"id": "klay-token"
+	},
+	"eos": {
+		"id": "eos"
+	},
+	"zec": {
+		"id": "zcash"
+	},
+	"hnt": {
+		"id": "helium"
+	},
+	"flow": {
+		"id": "flow"
+	},
+	"miota": {
+		"id": "iota"
+	},
+	"cake": {
+		"id": "cake"
+	},
+	"aave": {
+		"id": "aave"
+	},
+	"grt": {
+		"id": "the-graph"
+	},
+	"mkr": {
+		"id": "maker"
+	},
+	"one": {
+		"id": "harmony"
+	},
+	"btt": {
+		"id": "bittorrent"
+	},
+	"stx": {
+		"id": "blockstack"
+	},
+	"neo": {
+		"id": "neo"
+	},
+	"gala": {
+		"id": "gala"
+	},
+	"bsv": {
+		"id": "bitcoin-cash-sv"
+	},
+	"xec": {
+		"id": "ecash"
+	},
+	"qnt": {
+		"id": "quant-network"
+	},
+	"cvx": {
+		"id": "convex-finance"
+	},
+	"chz": {
+		"id": "chiliz"
+	},
+	"enj": {
+		"id": "enjincoin"
+	},
+	"kcs": {
+		"id": "kucoin-shares"
+	},
+	"lrc": {
+		"id": "loopring"
+	},
+	"ksm": {
+		"id": "kusama"
+	},
+	"dash": {
+		"id": "dash"
+	},
+	"ht": {
+		"id": "huobi-token"
+	},
+	"celo": {
+		"id": "celo"
+	},
+	"bat": {
+		"id": "basic-attention-token"
+	},
+	"tusd": {
+		"id": "true-usd"
+	},
+	"nexo": {
+		"id": "nexo"
+	},
+	"okb": {
+		"id": "okb"
+	},
+	"zil": {
+		"id": "zilliqa"
+	},
+	"ar": {
+		"id": "arweave"
+	},
+	"crv": {
+		"id": "curve-dao-token"
+	},
+	"kda": {
+		"id": "kadena"
+	},
+	"mina": {
+		"id": "mina-protocol"
+	},
+	"amp": {
+		"id": "amp-token"
+	},
+	"hot": {
+		"id": "holotoken"
+	},
+	"xem": {
+		"id": "nem"
+	},
+	"tfuel": {
+		"id": "theta-fuel"
+	},
+	"rose": {
+		"id": "oasis-network"
+	},
+	"usdp": {
+		"id": "paxos-standard"
+	},
+	"dcr": {
+		"id": "decred"
+	},
+	"iotx": {
+		"id": "iotex"
+	},
+	"scrt": {
+		"id": "secret"
+	},
+	"yfi": {
+		"id": "yearn-finance"
+	},
+	"comp": {
+		"id": "compound-coin"
+	},
+	"xym": {
+		"id": "symbol"
+	},
+	"sxp": {
+		"id": "swipe"
+	},
+	"qtum": {
+		"id": "qtum"
+	},
+	"gno": {
+		"id": "gnosis"
+	},
+	"bora": {
+		"id": "bora"
+	},
+	"cel": {
+		"id": "celsius-degree-token"
+	},
+	"usdn": {
+		"id": "neutrino"
+	},
+	"omg": {
+		"id": "omisego"
+	},
+	"kava": {
+		"id": "kava"
+	},
+	"rvn": {
+		"id": "ravencoin"
+	},
+	"btg": {
+		"id": "bitcoin-gold"
+	},
+	"xdc": {
+		"id": "xdce-crowd-sale"
+	},
+	"1inch": {
+		"id": "1inch"
+	},
+	"icx": {
+		"id": "icon"
+	},
+	"ankr": {
+		"id": "ankr"
+	},
+	"bnt": {
+		"id": "bancor"
+	},
+	"rndr": {
+		"id": "render-token"
+	},
+	"waxp": {
+		"id": "wax"
+	},
+	"audio": {
+		"id": "audius"
+	},
+	"anc": {
+		"id": "anchor-protocol"
+	},
+	"renbtc": {
+		"id": "renbtc"
+	},
+	"iost": {
+		"id": "iostoken"
+	},
+	"snx": {
+		"id": "havven"
+	},
+	"lpt": {
+		"id": "livepeer"
+	},
+	"zrx": {
+		"id": "0x"
+	},
+	"woo": {
+		"id": "woo-network"
+	},
+	"sc": {
+		"id": "siacoin"
+	},
+	"paxg": {
+		"id": "pax-gold"
+	},
+	"glmr": {
+		"id": "moonbeam"
+	},
+	"gmt": {
+		"id": "stepn"
+	},
+	"ont": {
+		"id": "ontology"
+	},
+	"imx": {
+		"id": "immutable-x"
+	},
+	"dgb": {
+		"id": "digibyte"
+	},
+	"skl": {
+		"id": "skale"
+	},
+	"knc": {
+		"id": "kyber-network-crystal"
+	},
+	"rly": {
+		"id": "rally-2"
+	},
+	"glm": {
+		"id": "golem"
+	},
+	"vlx": {
+		"id": "velas"
+	},
+	"elon": {
+		"id": "dogelon-mars"
+	},
+	"tel": {
+		"id": "telcoin"
+	},
+	"gt": {
+		"id": "gatechain-token"
+	},
+	"uma": {
+		"id": "uma"
+	},
+	"storj": {
+		"id": "storj"
+	},
+	"sushi": {
+		"id": "sushi"
+	},
+	"nft": {
+		"id": "apenft"
+	},
+	"rev": {
+		"id": "revain"
+	},
+	"xdb": {
+		"id": "digitalbits"
+	},
+	"twt": {
+		"id": "trust-wallet-token"
+	},
+	"hive": {
+		"id": "hive"
+	},
+	"jst": {
+		"id": "just"
+	},
+	"chsb": {
+		"id": "swissborg"
+	},
+	"poly": {
+		"id": "polymath"
+	},
+	"ren": {
+		"id": "republic-protocol"
+	},
+	"sys": {
+		"id": "syscoin"
+	},
+	"keep": {
+		"id": "keep-network"
+	},
+	"fei": {
+		"id": "fei-usd"
+	},
+	"people": {
+		"id": "constitutiondao"
+	},
+	"spell": {
+		"id": "spell-token"
+	},
+	"srm": {
+		"id": "serum"
+	},
+	"ilv": {
+		"id": "illuvium"
+	},
+	"ens": {
+		"id": "ethereum-name-service"
+	},
+	"pla": {
+		"id": "playdapp"
+	},
+	"celr": {
+		"id": "celer-network"
+	},
+	"ckb": {
+		"id": "nervos-network"
+	},
+	"dydx": {
+		"id": "dydx"
+	},
+	"ocean": {
+		"id": "ocean-protocol"
+	},
+	"flux": {
+		"id": "flux"
+	},
+	"perp": {
+		"id": "perpetual-protocol"
+	},
+	"ceek": {
+		"id": "ceek"
+	},
+	"uos": {
+		"id": "ultra"
+	},
+	"fxs": {
+		"id": "frax-share"
+	},
+	"ygg": {
+		"id": "yield-guild-games"
+	},
+	"xno": {
+		"id": "xeno-token"
+	},
+	"lsk": {
+		"id": "lisk"
+	},
+	"dent": {
+		"id": "dent"
+	},
+	"cspr": {
+		"id": "casper-network"
+	},
+	"xprt": {
+		"id": "persistence"
+	},
+	"fet": {
+		"id": "fetch-ai"
+	},
+	"win": {
+		"id": "wink"
+	},
+	"nu": {
+		"id": "nucypher"
+	},
+	"c98": {
+		"id": "coin98"
+	},
+	"ray": {
+		"id": "raydium"
+	},
+	"btrst": {
+		"id": "braintrust"
+	},
+	"super": {
+		"id": "superfarm"
+	},
+	"coti": {
+		"id": "coti"
+	},
+	"inj": {
+		"id": "injective-protocol"
+	},
+	"powr": {
+		"id": "power-ledger"
+	},
+	"pyr": {
+		"id": "vulcan-forged"
+	},
+	"mxc": {
+		"id": "mxc"
+	},
+	"xyo": {
+		"id": "xyo-network"
+	},
+	"SNT": {
+		"id": "status"
+	},
+	"req": {
+		"id": "request-network"
+	},
+	"trac": {
+		"id": "origintrail"
+	},
+	"wrx": {
+		"id": "wazirx"
+	},
+	"med": {
+		"id": "medibloc"
+	},
+	"tribe": {
+		"id": "tribe-2"
+	},
+	"fx": {
+		"id": "fx-coin"
+	},
+	"movr": {
+		"id": "moonriver"
+	},
+	"xch": {
+		"id": "chia"
+	},
+	"rsr": {
+		"id": "reserve-rights-token"
+	},
+	"ong": {
+		"id": "ong"
+	},
+	"orbs": {
+		"id": "orbs"
+	},
+	"ogn": {
+		"id": "origin-protocol"
+	},
+	"hex": {
+		"id": "hex"
+	},
+	"steth": {
+		"id": "staked-ether"
+	},
+	"frax": {
+		"id": "frax"
+	},
+	"cbg": {
+		"id": "chainbing"
+	},
+	"osmo": {
+		"id": "osmosis"
+	},
+	"wbnb": {
+		"id": "wbnb"
+	},
+	"ton": {
+		"id": "tokamak-network"
+	},
+	"hbtc": {
+		"id": "huobi-btc"
+	},
+	"dfi": {
+		"id": "defichain"
+	},
+	"ln": {
+		"id": "link"
+	},
+	"bit": {
+		"id": "bitdao"
+	},
+	"raca": {
+		"id": "radio-caca"
+	},
+	"nxm": {
+		"id": "nxm"
+	},
+	"lusd": {
+		"id": "liquity-usd"
+	},
+	"ccxx": {
+		"id": "counosx"
+	},
+	"youc": {
+		"id": "youcash"
+	},
+	"wemix": {
+		"id": "wemix-token"
+	},
+	"ttt": {
+		"id": "the-transfer-token"
+	},
+	"arrr": {
+		"id": "pirate-chain"
+	},
+	"metis": {
+		"id": "metis-token"
+	},
+	"xwc": {
+		"id": "whitecoin"
+	},
+	"kok": {
+		"id": "kok-coin"
+	},
+	"husd": {
+		"id": "husd"
+	},
+	"mob": {
+		"id": "mobilecoin"
+	},
+	"ldo": {
+		"id": "lido-dao"
+	},
+	"rpl": {
+		"id": "rocket-pool"
+	},
+	"sapp": {
+		"id": "sapphire"
+	},
+	"vvs": {
+		"id": "vvs-finance"
+	},
+	"safemoon": {
+		"id": "safemoon"
+	},
+	"ichi": {
+		"id": "ichi-farm"
+	},
+	"safe": {
+		"id": "safe-coin"
+	},
+	"ever": {
+		"id": "everscale"
+	},
+	"hero": {
+		"id": "metahero"
+	},
+	"ufo": {
+		"id": "ufo-gaming"
+	},
+	"best": {
+		"id": "bitpanda-ecosystem-token"
+	},
+	"lyxe": {
+		"id": "lukso-token"
+	},
+	"orc": {
+		"id": "orbit-chain"
+	},
+	"ubt": {
+		"id": "unibright"
+	},
+	"astr": {
+		"id": "astar"
+	},
+	"cfx": {
+		"id": "conflux-token"
+	},
+	"pundix": {
+		"id": "pundi-x-2"
+	},
+	"ardr": {
+		"id": "ardor"
+	},
+	"alice": {
+		"id": "my-neighbor-alice"
+	},
+	"mvl": {
+		"id": "mass-vehicle-ledger"
+	},
+	"any": {
+		"id": "anyswap"
+	},
+	"cvc": {
+		"id": "civic"
+	},
+	"hum": {
+		"id": "humanscape"
+	},
+	"mdx": {
+		"id": "mdex"
+	},
+	"mx": {
+		"id": "mx-token"
+	},
+	"tlos": {
+		"id": "telos"
+	},
+	"ctsi": {
+		"id": "cartesi"
+	},
+	"ant": {
+		"id": "aragon"
+	},
+	"dag": {
+		"id": "constellation-labs"
+	},
+	"api3": {
+		"id": "api3"
+	},
+	"aurora": {
+		"id": "aurora-near"
+	},
+	"stmx": {
+		"id": "storm"
+	},
+	"elf": {
+		"id": "aelf"
+	},
+	"btcst": {
+		"id": "btc-standard-hashrate-token"
+	},
+	"reef": {
+		"id": "reef-finance"
+	},
+	"gusd": {
+		"id": "gemini-dollar"
+	},
+	"boba": {
+		"id": "boba-network"
+	},
+	"xvg": {
+		"id": "verge"
+	},
+	"mbox": {
+		"id": "mobox"
+	},
+	"vtho": {
+		"id": "vethor-token"
+	},
+	"sos": {
+		"id": "opendao"
+	},
+	"joe": {
+		"id": "joe"
+	},
+	"xaut": {
+		"id": "tether-gold"
+	},
+	"mpl": {
+		"id": "maple"
+	},
+	"nkn": {
+		"id": "nkn"
+	},
+	"oxt": {
+		"id": "orchid-protocol"
+	},
+	"bico": {
+		"id": "biconomy"
+	},
+	"ewt": {
+		"id": "energy-web-token"
+	},
+	"dao": {
+		"id": "dao-maker"
+	},
+	"1eco": {
+		"id": "1eco"
+	},
+	"rgt": {
+		"id": "rari-governance-token"
+	},
+	"sure": {
+		"id": "insure"
+	},
+	"bfc": {
+		"id": "bifrost"
+	},
+	"rlc": {
+		"id": "iexec-rlc"
+	},
+	"nmr": {
+		"id": "numeraire"
+	},
+	"ach": {
+		"id": "alchemy-pay"
+	},
+	"ark": {
+		"id": "ark"
+	},
+	"ssv": {
+		"id": "ssv-network"
+	},
+	"starl": {
+		"id": "starlink"
+	},
+	"rep": {
+		"id": "augur"
+	},
+	"jasmy": {
+		"id": "jasmycoin"
+	},
+	"divi": {
+		"id": "divi"
+	},
+	"mbl": {
+		"id": "moviebloc"
+	},
+	"strax": {
+		"id": "stratis"
+	},
+	"alpha": {
+		"id": "alphacoin"
+	},
+	"dg": {
+		"id": "degate"
+	},
+	"veri": {
+		"id": "veritaseum"
+	},
+	"beta": {
+		"id": "beta-finance"
+	},
+	"dusk": {
+		"id": "dusk-network"
+	},
+	"band": {
+		"id": "band-protocol"
+	},
+	"xsgd": {
+		"id": "xsgd"
+	},
+	"mask": {
+		"id": "mask-network"
+	},
+	"blok": {
+		"id": "bloktopia"
+	},
+	"sun": {
+		"id": "sun-token"
+	},
+	"hedg": {
+		"id": "hedgetrade"
+	},
+	"rad": {
+		"id": "radicle"
+	},
+	"mngo": {
+		"id": "mango-markets"
+	},
+	"steem": {
+		"id": "steem"
+	},
+	"erg": {
+		"id": "ergo"
+	},
+	"spa": {
+		"id": "sperax"
+	},
+	"prom": {
+		"id": "prometeus"
+	},
+	"usdx": {
+		"id": "dollars"
+	},
+	"badger": {
+		"id": "badger-dao"
+	},
+	"rmrk": {
+		"id": "rmrk"
+	},
+	"agix": {
+		"id": "singularitynet"
+	},
+	"qkc": {
+		"id": "quark-chain"
+	},
+	"stpt": {
+		"id": "stp-network"
+	},
+	"c20": {
+		"id": "crypto20"
+	},
+	"maid": {
+		"id": "maidsafecoin"
+	},
+	"htr": {
+		"id": "hathor"
+	},
+	"orn": {
+		"id": "orion-protocol"
+	},
+	"kai": {
+		"id": "kardiachain"
+	},
+	"asd": {
+		"id": "asd"
+	},
+	"vr": {
+		"id": "victoria-vr"
+	},
+	"alcx": {
+		"id": "alchemix"
+	},
+	"abbc": {
+		"id": "alibabacoin"
+	},
+	"eps": {
+		"id": "ellipsis"
+	},
+	"meta": {
+		"id": "metadium"
+	},
+	"dawn": {
+		"id": "dawn-protocol"
+	},
+	"akt": {
+		"id": "akash-network"
+	},
+	"rkn": {
+		"id": "rakon"
+	},
+	"thg": {
+		"id": "thetan-arena"
+	},
+	"ousd": {
+		"id": "origin-dollar"
+	},
+	"rif": {
+		"id": "rif-token"
+	},
+	"xpr": {
+		"id": "proton"
+	},
+	"qrdo": {
+		"id": "qredo"
+	},
+	"cennz": {
+		"id": "centrality"
+	},
+	"ssx": {
+		"id": "somesing"
+	},
+	"lat": {
+		"id": "liquidify"
+	},
+	"avinoc": {
+		"id": "avinoc"
+	},
+	"veth": {
+		"id": "venus-eth"
+	},
+	"pols": {
+		"id": "polkastarter"
+	},
+	"eurs": {
+		"id": "stasis-eurs"
+	},
+	"dero": {
+		"id": "dero"
+	},
+	"mtl": {
+		"id": "metal"
+	},
+	"ads": {
+		"id": "adshares"
+	},
+	"mir": {
+		"id": "mirror-protocol"
+	},
+	"strk": {
+		"id": "strike"
+	},
+	"bake": {
+		"id": "bakerytoken"
+	},
+	"yooshi": {
+		"id": "yooshi"
+	},
+	"soul": {
+		"id": "phantasma"
+	},
+	"xvs": {
+		"id": "venus"
+	},
+	"hxro": {
+		"id": "hxro"
+	},
+	"snl": {
+		"id": "sport-and-leisure"
+	},
+	"bsw": {
+		"id": "biswap"
+	},
+	"alt": {
+		"id": "alitas"
+	},
+	"dvi": {
+		"id": "dvision-network"
+	},
+	"xhv": {
+		"id": "haven"
+	},
+	"mln": {
+		"id": "melon"
+	},
+	"fun": {
+		"id": "funfair"
+	},
+	"tomo": {
+		"id": "tomochain"
+	},
+	"ghst": {
+		"id": "aavegotchi"
+	},
+	"utk": {
+		"id": "utrust"
+	},
+	"agld": {
+		"id": "adventure-gold"
+	},
+	"sfund": {
+		"id": "seedify-fund"
+	},
+	"gxc": {
+		"id": "gxchain"
+	},
+	"dep": {
+		"id": "deapcoin"
+	},
+	"pro": {
+		"id": "propy"
+	},
+	"tru": {
+		"id": "truefi"
+	},
+	"mwc": {
+		"id": "mimblewimblecoin"
+	},
+	"xdai": {
+		"id": "xdai"
+	},
+	"hoo": {
+		"id": "hoo-token"
+	},
+	"bcd": {
+		"id": "bitcoin-diamond"
+	},
+	"dvf": {
+		"id": "dvf"
+	},
+	"vra": {
+		"id": "verasity"
+	},
+	"xrd": {
+		"id": "radix"
+	},
+	"tlm": {
+		"id": "alien-worlds"
+	},
+	"aioz": {
+		"id": "aioz-network"
+	},
+	"iq": {
+		"id": "everipedia"
+	},
+	"dka": {
+		"id": "dkargo"
+	},
+	"mc": {
+		"id": "merit-circle"
+	},
+	"susd": {
+		"id": "nusd"
+	},
+	"wild": {
+		"id": "wilder-world"
+	},
+	"slp": {
+		"id": "smooth-love-potion"
+	},
+	"hunt": {
+		"id": "hunt-token"
+	},
+	"egg": {
+		"id": "nestree"
+	},
+	"rbtc": {
+		"id": "rootstock"
+	},
+	"dar": {
+		"id": "mines-of-dalarnia"
+	},
+	"etn": {
+		"id": "electroneum"
+	},
+	"bnx": {
+		"id": "binaryx"
+	},
+	"crts": {
+		"id": "cratos"
+	},
+	"gtc": {
+		"id": "gitcoin"
+	},
+	"dpi": {
+		"id": "defipulse-index"
+	},
+	"kp3r": {
+		"id": "keep3rv1"
+	},
+	"idex": {
+		"id": "aurora-dao"
+	},
+	"bifi": {
+		"id": "beefy-finance"
+	},
+	"arpa": {
+		"id": "arpa-chain"
+	},
+	"ctk": {
+		"id": "certik"
+	},
+	"cfg": {
+		"id": "centrifuge"
+	},
+	"bzrx": {
+		"id": "bzx-protocol"
+	},
+	"vusdc": {
+		"id": "venus-usdc"
+	},
+	"dpr": {
+		"id": "deeper-network"
+	},
+	"wan": {
+		"id": "wanchain"
+	},
+	"clv": {
+		"id": "clover"
+	},
+	"wncg": {
+		"id": "wrapped-ncg"
+	},
+	"kilt": {
+		"id": "kilt-protocol"
+	},
+	"loomold": {
+		"id": "loom-network"
+	},
+	"tvk": {
+		"id": "terra-virtua-kolect"
+	},
+	"aergo": {
+		"id": "aergo"
+	},
+	"bal": {
+		"id": "balancer"
+	},
+	"sfp": {
+		"id": "safepal"
+	},
+	"lcx": {
+		"id": "lcx"
+	},
+	"cra": {
+		"id": "crabada"
+	},
+	"vrsc": {
+		"id": "verus-coin"
+	},
+	"vxv": {
+		"id": "vectorspace"
+	},
+	"cqt": {
+		"id": "covalent"
+	},
+	"yfii": {
+		"id": "yfii-finance"
+	},
+	"mft": {
+		"id": "mainframe"
+	},
+	"klv": {
+		"id": "klever"
+	},
+	"lina": {
+		"id": "linear"
+	},
+	"aethc": {
+		"id": "ankreth"
+	},
+	"alpine": {
+		"id": "alpine-f1-team-fan-token"
+	},
+	"fida": {
+		"id": "bonfida"
+	},
+	"bts": {
+		"id": "bitshares"
+	},
+	"fox": {
+		"id": "farmers-only"
+	},
+	"iris": {
+		"id": "iris-network"
+	},
+	"zb": {
+		"id": "zb-token"
+	},
+	"ava": {
+		"id": "concierge-io"
+	},
+	"aca": {
+		"id": "acala"
+	},
+	"con": {
+		"id": "conun"
+	},
+	"rook": {
+		"id": "rook"
+	},
+	"cube": {
+		"id": "somnium-space-cubes"
+	},
+	"forth": {
+		"id": "ampleforth-governance-token"
+	},
+	"cre": {
+		"id": "carry"
+	},
+	"rfox": {
+		"id": "redfox-labs-2"
+	},
+	"ampl": {
+		"id": "ampleforth"
+	},
+	"boson": {
+		"id": "boson-protocol"
+	},
+	"tt": {
+		"id": "thunder-token"
+	},
+	"aury": {
+		"id": "aurory"
+	},
+	"noia": {
+		"id": "noia-network"
+	},
+	"fwt": {
+		"id": "freeway-token"
+	},
+	"tko": {
+		"id": "tokocrypto"
+	},
+	"hns": {
+		"id": "handshake"
+	},
+	"nsbt": {
+		"id": "neutrino-system-base-token"
+	},
+	"troy": {
+		"id": "troy"
+	},
+	"xcad": {
+		"id": "xcad-network"
+	},
+	"cusd": {
+		"id": "celo-dollar"
+	},
+	"voxel": {
+		"id": "voxies"
+	},
+	"ata": {
+		"id": "ata-token"
+	},
+	"mof": {
+		"id": "molecular-future"
+	},
+	"aqt": {
+		"id": "alpha-quark-token"
+	},
+	"ern": {
+		"id": "ethernity-chain"
+	},
+	"coval": {
+		"id": "circuits-of-value"
+	},
+	"hi": {
+		"id": "hi-dollar"
+	},
+	"cudos": {
+		"id": "cudos"
+	},
+	"quick": {
+		"id": "quick"
+	},
+	"hydra": {
+		"id": "hydra"
+	},
+	"mlk": {
+		"id": "milk-alliance"
+	},
+	"erowan": {
+		"id": "sifchain"
+	},
+	"peak": {
+		"id": "marketpeak"
+	},
+	"high": {
+		"id": "highstreet"
+	},
+	"efi": {
+		"id": "efinity"
+	},
+	"kmd": {
+		"id": "komodo"
+	},
+	"cbk": {
+		"id": "cobak-token"
+	},
+	"rbn": {
+		"id": "ribbon-finance"
+	},
+	"flm": {
+		"id": "flamingo-finance"
+	},
+	"uqc": {
+		"id": "uquid-coin"
+	},
+	"bnana": {
+		"id": "banana-token"
+	},
+	"pha": {
+		"id": "pha"
+	},
+	"derc": {
+		"id": "derace"
+	},
+	"gf": {
+		"id": "guildfi"
+	},
+	"farm": {
+		"id": "harvest-finance"
+	},
+	"ela": {
+		"id": "elastos"
+	},
+	"atlas": {
+		"id": "star-atlas"
+	},
+	"pre": {
+		"id": "presearch"
+	},
+	"kin": {
+		"id": "kin"
+	},
+	"ddx": {
+		"id": "derivadao"
+	},
+	"cos": {
+		"id": "contentos"
+	},
+	"lto": {
+		"id": "lto-network"
+	},
+	"onus": {
+		"id": "onus"
+	},
+	"moc": {
+		"id": "mossland"
+	},
+	"DIA": {
+		"id": "dia-data"
+	},
+	"grid": {
+		"id": "grid"
+	},
+	"alpaca": {
+		"id": "alpaca-finance"
+	},
+	"rare": {
+		"id": "superrare"
+	},
+	"samo": {
+		"id": "samoyedcoin"
+	},
+	"pcl": {
+		"id": "peculium-2"
+	},
+	"chess": {
+		"id": "tranchess"
+	},
+	"eum": {
+		"id": "elitium"
+	},
+	"swm": {
+		"id": "swarm"
+	},
+	"sps": {
+		"id": "splinterlands"
+	},
+	"core": {
+		"id": "cvault-finance"
+	},
+	"vega": {
+		"id": "vega-protocol"
+	},
+	"nftx": {
+		"id": "nftx"
+	},
+	"mona": {
+		"id": "monacoin"
+	},
+	"rise": {
+		"id": "everrise"
+	},
+	"dad": {
+		"id": "decentralized-advertising"
+	},
+	"mnw": {
+		"id": "morpheus-network"
+	},
+	"nct": {
+		"id": "polyswarm"
+	},
+	"qc": {
+		"id": "qcash"
+	},
+	"titan": {
+		"id": "titanswap"
+	},
+	"rai": {
+		"id": "rai"
+	},
+	"quack": {
+		"id": "richquack"
+	},
+	"data": {
+		"id": "streamr"
+	},
+	"upp": {
+		"id": "sentinel-protocol"
+	},
+	"solo": {
+		"id": "solo-coin"
+	},
+	"asm": {
+		"id": "assemble-protocol"
+	},
+	"pny": {
+		"id": "peony-coin"
+	},
+	"zlw": {
+		"id": "zelwin"
+	},
+	"swp": {
+		"id": "kava-swap"
+	},
+	"blz": {
+		"id": "bluzelle"
+	},
+	"adx": {
+		"id": "addax"
+	},
+	"dfa": {
+		"id": "define"
+	},
+	"aleph": {
+		"id": "aleph"
+	},
+	"swap": {
+		"id": "trustswap"
+	},
+	"loka": {
+		"id": "league-of-kingdoms"
+	},
+	"sdao": {
+		"id": "singularitydao"
+	},
+	"gtn": {
+		"id": "glitzkoin"
+	},
+	"rfr": {
+		"id": "refereum"
+	},
+	"biot": {
+		"id": "biopassport"
+	},
+	"bscpad": {
+		"id": "bscpad"
+	},
+	"axel": {
+		"id": "axel"
+	},
+	"sov": {
+		"id": "sovryn"
+	},
+	"firo": {
+		"id": "binance-peg-firo"
+	},
+	"time": {
+		"id": "chronobank"
+	},
+	"tpt": {
+		"id": "token-pocket"
+	},
+	"hyn": {
+		"id": "hyperion"
+	},
+	"boring": {
+		"id": "boringdao"
+	},
+	"pnk": {
+		"id": "kleros"
+	},
+	"cxo": {
+		"id": "cargox"
+	},
+	"bond": {
+		"id": "barnbridge"
+	},
+	"vbusd": {
+		"id": "venus-busd"
+	},
+	"grs": {
+		"id": "groestlcoin"
+	},
+	"trb": {
+		"id": "tellor"
+	},
+	"lit": {
+		"id": "litentry"
+	},
+	"maro": {
+		"id": "ttc-protocol"
+	},
+	"cocos": {
+		"id": "cocos-bcx"
+	},
+	"gas": {
+		"id": "gas"
+	},
+	"mnde": {
+		"id": "marinade"
+	},
+	"dodo": {
+		"id": "dodo"
+	},
+	"albt": {
+		"id": "allianceblock"
+	},
+	"akro": {
+		"id": "akropolis"
+	},
+	"mix": {
+		"id": "mixmarvel"
+	},
+	"dmch": {
+		"id": "darma-cash"
+	},
+	"xmon": {
+		"id": "xmon"
+	},
+	"bmx": {
+		"id": "bitmart-token"
+	},
+	"hdao": {
+		"id": "hyperdao"
+	},
+	"wnxm": {
+		"id": "wrapped-nxm"
+	},
+	"ctxc": {
+		"id": "cortex"
+	},
+	"vai": {
+		"id": "vai"
+	},
+	"HARD": {
+		"id": "kava-lend"
+	},
+	"sbd": {
+		"id": "steem-dollars"
+	},
+	"bel": {
+		"id": "bella-protocol"
+	},
+	"rari": {
+		"id": "rarible"
+	},
+	"wxt": {
+		"id": "wirex"
+	},
+	"aion": {
+		"id": "aion"
+	},
+	"dnt": {
+		"id": "district0x"
+	},
+	"torn": {
+		"id": "tornado-cash"
+	},
+	"city": {
+		"id": "manchester-city-fan-token"
+	},
+	"fio": {
+		"id": "fio-protocol"
+	},
+	"front": {
+		"id": "frontier-token"
+	},
+	"qsp": {
+		"id": "quantstamp"
+	},
+	"xnc": {
+		"id": "xenios"
+	},
+	"vxvs": {
+		"id": "venus-xvs"
+	},
+	"sero": {
+		"id": "super-zero"
+	},
+	"maps": {
+		"id": "maps"
+	},
+	"dgd": {
+		"id": "digixdao"
+	},
+	"kar": {
+		"id": "karura"
+	},
+	"banana": {
+		"id": "apeswap-finance"
+	},
+	"lqty": {
+		"id": "liquity"
+	},
+	"gafi": {
+		"id": "gamefi"
+	},
+	"cet": {
+		"id": "coinex-token"
+	},
+	"whale": {
+		"id": "whale"
+	},
+	"lon": {
+		"id": "tokenlon"
+	},
+	"ooki": {
+		"id": "ooki"
+	},
+	"ramp": {
+		"id": "ramp"
+	},
+	"fis": {
+		"id": "stafi"
+	},
+	"nuls": {
+		"id": "nuls"
+	},
+	"baby": {
+		"id": "babyswap"
+	},
+	"key": {
+		"id": "selfkey"
+	},
+	"cell": {
+		"id": "cellframe"
+	},
+	"crpt": {
+		"id": "crypterium"
+	},
+	"nye": {
+		"id": "newyork-exchange"
+	},
+	"urus": {
+		"id": "urus-token"
+	},
+	"gene": {
+		"id": "genopets"
+	},
+	"beam": {
+		"id": "beam"
+	},
+	"ae": {
+		"id": "aeternity"
+	},
+	"slim": {
+		"id": "solanium"
+	},
+	"sdn": {
+		"id": "shiden"
+	},
+	"shping": {
+		"id": "shping"
+	},
+	"btm": {
+		"id": "bytom"
+	},
+	"velo": {
+		"id": "velo"
+	},
+	"la": {
+		"id": "latoken"
+	},
+	"wtc": {
+		"id": "waltonchain"
+	},
+	"xwg": {
+		"id": "x-world-games"
+	},
+	"rvp": {
+		"id": "revolution-populi"
+	},
+	"shft": {
+		"id": "shyft-network-2"
+	},
+	"map": {
+		"id": "marcopolo"
+	},
+	"psg": {
+		"id": "paris-saint-germain-fan-token"
+	},
+	"clt": {
+		"id": "coinloan"
+	},
+	"sntvt": {
+		"id": "sentivate"
+	},
+	"raini": {
+		"id": "rainicorn"
+	},
+	"six": {
+		"id": "six-network"
+	},
+	"fleta": {
+		"id": "fleta"
+	},
+	"posi": {
+		"id": "position-token"
+	},
+	"oxen": {
+		"id": "loki-network"
+	},
+	"miau": {
+		"id": "mirrored-ishares-gold-trust"
+	},
+	"musd": {
+		"id": "musd"
+	},
+	"prq": {
+		"id": "parsiq"
+	},
+	"epic": {
+		"id": "epic-cash"
+	},
+	"locus": {
+		"id": "locus-chain"
+	},
+	"mdt": {
+		"id": "measurable-data-token"
+	},
+	"nwc": {
+		"id": "newscrypto-coin"
+	},
+	"dov": {
+		"id": "dovu"
+	},
+	"om": {
+		"id": "mantra-dao"
+	},
+	"btr": {
+		"id": "bitriver"
+	},
+	"fct": {
+		"id": "firmachain"
+	},
+	"polis": {
+		"id": "polis"
+	},
+	"krl": {
+		"id": "kryll"
+	},
+	"aht": {
+		"id": "ahatoken"
+	},
+	"REV": {
+		"id": "rchain"
+	},
+	"yld": {
+		"id": "yield-app"
+	},
+	"edg": {
+		"id": "edgeware"
+	},
+	"fsn": {
+		"id": "fsn"
+	},
+	"nrg": {
+		"id": "energi"
+	},
+	"APX": {
+		"id": "apollo-coin"
+	},
+	"mith": {
+		"id": "mithril"
+	},
+	"nest": {
+		"id": "nest"
+	},
+	"inv": {
+		"id": "inverse-finance"
+	},
+	"stt": {
+		"id": "starterra"
+	},
+	"met": {
+		"id": "metronome"
+	},
+	"lazio": {
+		"id": "lazio-fan-token"
+	},
+	"solve": {
+		"id": "solve-care"
+	},
+	"nmc": {
+		"id": "namecoin"
+	},
+	"swth": {
+		"id": "switcheo"
+	},
+	"znn": {
+		"id": "zenon"
+	},
+	"blct": {
+		"id": "bloomzed-token"
+	},
+	"boa": {
+		"id": "bosagora"
+	},
+	"dvpn": {
+		"id": "sentinel"
+	},
+	"basic": {
+		"id": "basic"
+	},
+	"df": {
+		"id": "dforce-token"
+	},
+	"gods": {
+		"id": "gods-unchained"
+	},
+	"thn": {
+		"id": "throne"
+	},
+	"vsys": {
+		"id": "v-systems"
+	},
+	"nbs": {
+		"id": "new-bitshares"
+	},
+	"vbit": {
+		"id": "valobit"
+	},
+	"amo": {
+		"id": "amo"
+	},
+	"burger": {
+		"id": "burger-swap"
+	},
+	"atri": {
+		"id": "atari"
+	},
+	"auction": {
+		"id": "auction"
+	},
+	"nim": {
+		"id": "nimiq-2"
+	},
+	"sofi": {
+		"id": "rai-finance"
+	},
+	"stack": {
+		"id": "stackos"
+	},
+	"bar": {
+		"id": "fc-barcelona-fan-token"
+	},
+	"anj": {
+		"id": "anj"
+	},
+	"apl": {
+		"id": "apollo"
+	},
+	"mvc": {
+		"id": "mileverse"
+	},
+	"btse": {
+		"id": "btse-token"
+	},
+	"ihf": {
+		"id": "invictus-hyprion-fund"
+	},
+	"nfty": {
+		"id": "nfty-token"
+	},
+	"porto": {
+		"id": "fc-porto"
+	},
+	"rbc": {
+		"id": "rubic"
+	},
+	"cvp": {
+		"id": "community-vote-power"
+	},
+	"vusdt": {
+		"id": "venus-usdt"
+	},
+	"cream": {
+		"id": "cream-2"
+	},
+	"dock": {
+		"id": "dock"
+	},
+	"hai": {
+		"id": "hackenai"
+	},
+	"pdex": {
+		"id": "polkadex"
+	},
+	"wicc": {
+		"id": "waykichain"
+	},
+	"SUKU": {
+		"id": "suku"
+	},
+	"gom2": {
+		"id": "gomoney2"
+	},
+	"glch": {
+		"id": "glitch-protocol"
+	},
+	"xor": {
+		"id": "sora"
+	},
+	"poa": {
+		"id": "planet-of-apes"
+	},
+	"revv": {
+		"id": "revv"
+	},
+	"num": {
+		"id": "numbers-protocol"
+	},
+	"ltx": {
+		"id": "lattice-token"
+	},
+	"ult": {
+		"id": "ultiledger"
+	},
+	"hegic": {
+		"id": "hegic"
+	},
+	"for": {
+		"id": "force-protocol"
+	},
+	"krt": {
+		"id": "terra-krw"
+	},
+	"adp": {
+		"id": "adappter-token"
+	},
+	"bcn": {
+		"id": "bytecoin"
+	},
+	"saito": {
+		"id": "saito"
+	},
+	"pnt": {
+		"id": "pnetwork"
+	},
+	"mandox": {
+		"id": "mandox"
+	},
+	"dego": {
+		"id": "dego-finance"
+	},
+	"zeon": {
+		"id": "zeon"
+	},
+	"civ": {
+		"id": "civilization"
+	},
+	"opul": {
+		"id": "opulous"
+	},
+	"go": {
+		"id": "gochain"
+	},
+	"vite": {
+		"id": "vite"
+	},
+	"taboo": {
+		"id": "taboo-token"
+	},
+	"hez": {
+		"id": "hermez-network-token"
+	},
+	"qash": {
+		"id": "qash"
+	},
+	"btu": {
+		"id": "btu-protocol"
+	},
+	"santos": {
+		"id": "santos-fc-fan-token"
+	},
+	"rsv": {
+		"id": "reserve"
+	},
+	"drep": {
+		"id": "drep-new"
+	},
+	"gto": {
+		"id": "gifto"
+	},
+	"qtcon": {
+		"id": "quiztok"
+	},
+	"usdk": {
+		"id": "usdk"
+	},
+	"lgcy": {
+		"id": "lgcy-network"
+	},
+	"hoge": {
+		"id": "hoge-finance"
+	},
+	"pond": {
+		"id": "marlin"
+	},
+	"arv": {
+		"id": "ariva"
+	},
+	"spirit": {
+		"id": "spiritswap"
+	},
+	"evz": {
+		"id": "electric-vehicle-zone"
+	},
+	"dora": {
+		"id": "dora-factory"
+	},
+	"tmtg": {
+		"id": "the-midas-touch-gold"
+	},
+	"xft": {
+		"id": "offshift"
+	},
+	"hopr": {
+		"id": "hopr"
+	},
+	"gxt": {
+		"id": "gemma-extending-tech"
+	},
+	"dxd": {
+		"id": "dxdao"
+	},
+	"xcp": {
+		"id": "counterparty"
+	},
+	"get": {
+		"id": "get-token"
+	},
+	"zash": {
+		"id": "zimbocash"
+	},
+	"SCP": {
+		"id": "scope"
+	},
+	"wozx": {
+		"id": "wozx"
+	},
+	"socks": {
+		"id": "unisocks"
+	},
+	"math": {
+		"id": "math"
+	},
+	"id": {
+		"id": "everid"
+	},
+	"ast": {
+		"id": "airswap"
+	},
+	"dext": {
+		"id": "dextools"
+	},
+	"perl": {
+		"id": "perlin"
+	},
+	"polk": {
+		"id": "polkamarkets"
+	},
+	"dexe": {
+		"id": "dexe"
+	},
+	"woop": {
+		"id": "woonkly-power"
+	},
+	"stc": {
+		"id": "student-coin"
+	},
+	"unfi": {
+		"id": "unifi-protocol-dao"
+	},
+	"shx": {
+		"id": "stronghold-token"
+	},
+	"caps": {
+		"id": "coin-capsule"
+	},
+	"vidt": {
+		"id": "v-id-blockchain"
+	},
+	"soc": {
+		"id": "soda-coin"
+	},
+	"bepro": {
+		"id": "bepro-network"
+	},
+	"shiryo-inu": {
+		"id": "shiryo-inu"
+	},
+	"idia": {
+		"id": "idia"
+	},
+	"auto": {
+		"id": "auto"
+	},
+	"hibs": {
+		"id": "hiblocks"
+	},
+	"el": {
+		"id": "elysia"
+	},
+	"erc20": {
+		"id": "erc20"
+	},
+	"orion": {
+		"id": "orion-money"
+	},
+	"nxs": {
+		"id": "nexus"
+	},
+	"vid": {
+		"id": "videocoin"
+	},
+	"wing": {
+		"id": "wing-finance"
+	},
+	"zcn": {
+		"id": "0chain"
+	},
+	"clo": {
+		"id": "callisto"
+	},
+	"zks": {
+		"id": "zkspace"
+	},
+	"bux": {
+		"id": "blockport"
+	},
+	"drgn": {
+		"id": "dragonchain"
+	},
+	"brd": {
+		"id": "bread"
+	},
+	"route": {
+		"id": "route"
+	},
+	"lbc": {
+		"id": "lbry-credits"
+	},
+	"insur": {
+		"id": "insurace"
+	},
+	"dx": {
+		"id": "dxchain"
+	},
+	"nif": {
+		"id": "unifty"
+	},
+	"metag": {
+		"id": "metagamz"
+	},
+	"ppt": {
+		"id": "populous"
+	},
+	"ghx": {
+		"id": "gamercoin"
+	},
+	"hotcross": {
+		"id": "hot-cross"
+	},
+	"mtv": {
+		"id": "multivac"
+	},
+	"flx": {
+		"id": "reflexer-ungovernance-token"
+	},
+	"epik": {
+		"id": "epik-prime"
+	},
+	"gmee": {
+		"id": "gamee"
+	},
+	"temco": {
+		"id": "temco"
+	},
+	"rdd": {
+		"id": "reddcoin"
+	},
+	"pcx": {
+		"id": "chainx"
+	},
+	"obsr": {
+		"id": "observer-coin"
+	},
+	"gyen": {
+		"id": "gyen"
+	},
+	"cyclub": {
+		"id": "mci-coin"
+	},
+	"ctx": {
+		"id": "cryptex-finance"
+	},
+	"reap": {
+		"id": "reapchain"
+	},
+	"kdag": {
+		"id": "kdag"
+	},
+	"vsp": {
+		"id": "vesper-finance"
+	},
+	"shr": {
+		"id": "sharering"
+	},
+	"ask": {
+		"id": "permission-coin"
+	},
+	"dobo": {
+		"id": "dogebonk"
+	},
+	"qi": {
+		"id": "benqi"
+	},
+	"pkf": {
+		"id": "polkafoundry"
+	},
+	"vtc": {
+		"id": "vertcoin"
+	},
+	"fuse": {
+		"id": "fuse-network-token"
+	},
+	"wiken": {
+		"id": "project-with"
+	},
+	"xfl": {
+		"id": "florin"
+	},
+	"lss": {
+		"id": "lossless"
+	},
+	"cgg": {
+		"id": "chain-guardians"
+	},
+	"qrl": {
+		"id": "quantum-resistant-ledger"
+	},
+	"pac": {
+		"id": "paccoin"
+	},
+	"bf": {
+		"id": "bitforex"
+	},
+	"like": {
+		"id": "likecoin"
+	},
+	"veed": {
+		"id": "veed"
+	},
+	"planets": {
+		"id": "planetwatch"
+	},
+	"pbr": {
+		"id": "polkabridge"
+	},
+	"kan": {
+		"id": "kan"
+	},
+	"acm": {
+		"id": "ac-milan-fan-token"
+	},
+	"es": {
+		"id": "era-swap-token"
+	},
+	"treeb": {
+		"id": "treeb"
+	},
+	"ooe": {
+		"id": "openocean"
+	},
+	"lnr": {
+		"id": "lunar"
+	},
+	"push": {
+		"id": "ethereum-push-notification-service"
+	},
+	"paid": {
+		"id": "paid-network"
+	},
+	"png": {
+		"id": "pangolin"
+	},
+	"gpx": {
+		"id": "gpex"
+	},
+	"zig": {
+		"id": "zignaly"
+	},
+	"stos": {
+		"id": "stratos"
+	},
+	"mlt": {
+		"id": "media-licensing-token"
+	},
+	"ngm": {
+		"id": "e-money"
+	},
+	"foam": {
+		"id": "foam-protocol"
+	},
+	"pornrocket": {
+		"id": "pornrocket"
+	},
+	"pendle": {
+		"id": "pendle"
+	},
+	"hc": {
+		"id": "hashland-coin"
+	},
+	"ali": {
+		"id": "alethea-artificial-liquid-intelligence-token"
+	},
+	"inter": {
+		"id": "inter-milan-fan-token"
+	},
+	"jup": {
+		"id": "jupiter"
+	},
+	"oxy": {
+		"id": "oxygen"
+	},
+	"tct": {
+		"id": "tokenclub"
+	},
+	"opct": {
+		"id": "opacity"
+	},
+	"pivx": {
+		"id": "pivx"
+	},
+	"upi": {
+		"id": "pawtocol"
+	},
+	"gbyte": {
+		"id": "byteball"
+	},
+	"o3": {
+		"id": "o3-swap"
+	},
+	"kyl": {
+		"id": "kylin-network"
+	},
+	"tone": {
+		"id": "te-food"
+	},
+	"val": {
+		"id": "radium"
+	},
+	"nex": {
+		"id": "neon-exchange"
+	},
+	"plu": {
+		"id": "pluton"
+	},
+	"new": {
+		"id": "newton-project"
+	},
+	"btcp": {
+		"id": "bitcoin-private"
+	},
+	"game": {
+		"id": "gamecredits"
+	},
+	"RSS3": {
+		"id": "rss3"
+	},
+	"bax": {
+		"id": "babb"
+	},
+	"grin": {
+		"id": "grin"
+	},
+	"palla": {
+		"id": "pallapay"
+	},
+	"chp": {
+		"id": "coinpoker"
+	},
+	"gcr": {
+		"id": "global-coin-research"
+	},
+	"mobi": {
+		"id": "mobius"
+	},
+	"elmon": {
+		"id": "elemon"
+	},
+	"xrt": {
+		"id": "robonomics-network"
+	},
+	"digg": {
+		"id": "digg"
+	},
+	"sidus": {
+		"id": "sidus"
+	},
+	"aria20": {
+		"id": "arianee"
+	},
+	"ppc": {
+		"id": "peercoin"
+	},
+	"aog": {
+		"id": "smartofgiving"
+	},
+	"xed": {
+		"id": "exeedme"
+	},
+	"stars": {
+		"id": "mogul-productions"
+	},
+	"strong": {
+		"id": "strong"
+	},
+	"vidya": {
+		"id": "vidya"
+	},
+	"btc2": {
+		"id": "bitcoin-2"
+	},
+	"bhp": {
+		"id": "blockchain-of-hash-power"
+	},
+	"bidr": {
+		"id": "binanceidr"
+	},
+	"orai": {
+		"id": "oraichain-token"
+	},
+	"gfi": {
+		"id": "goldfinch"
+	},
+	"sparta": {
+		"id": "spartan-protocol-token"
+	},
+	"ban": {
+		"id": "banano"
+	},
+	"xep": {
+		"id": "electra-protocol"
+	},
+	"dsla": {
+		"id": "stacktical"
+	},
+	"san": {
+		"id": "santiment-network-token"
+	},
+	"pmon": {
+		"id": "pocmon"
+	},
+	"goc": {
+		"id": "eligma"
+	},
+	"avt": {
+		"id": "aventus"
+	},
+	"idrt": {
+		"id": "rupiah-token"
+	},
+	"tra": {
+		"id": "trabzonspor-fan-token"
+	},
+	"standard": {
+		"id": "stakeborg-dao"
+	},
+	"card": {
+		"id": "cardstack"
+	},
+	"asta": {
+		"id": "asta"
+	},
+	"signa": {
+		"id": "signum"
+	},
+	"usdj": {
+		"id": "just-stablecoin"
+	},
+	"atm": {
+		"id": "atletico-madrid"
+	},
+	"belt": {
+		"id": "belt"
+	},
+	"bcmc": {
+		"id": "blockchain-monster-hunt"
+	},
+	"dafi": {
+		"id": "dafi-protocol"
+	},
+	"sfi": {
+		"id": "saffron-finance"
+	},
+	"mhc": {
+		"id": "metahash"
+	},
+	"shill": {
+		"id": "shillit-app"
+	},
+	"nas": {
+		"id": "nebulas"
+	},
+	"ctcn": {
+		"id": "contracoin"
+	},
+	"bir": {
+		"id": "birake"
+	},
+	"dehub": {
+		"id": "dehub"
+	},
+	"gny": {
+		"id": "gny"
+	},
+	"abt": {
+		"id": "arcblock"
+	},
+	"vsxp": {
+		"id": "venus-sxp"
+	},
+	"nav": {
+		"id": "nav-coin"
+	},
+	"govi": {
+		"id": "govi"
+	},
+	"qqq": {
+		"id": "qqq-token"
+	},
+	"vee": {
+		"id": "blockv"
+	},
+	"poolz": {
+		"id": "poolz-finance"
+	},
+	"cru": {
+		"id": "crust-network"
+	},
+	"hapi": {
+		"id": "hapi"
+	},
+	"life": {
+		"id": "life-crypto"
+	},
+	"btrs": {
+		"id": "bitball-treasure"
+	},
+	"vrt": {
+		"id": "venus-reward-token"
+	},
+	"nftb": {
+		"id": "nftb"
+	},
+	"uft": {
+		"id": "unlend-finance"
+	},
+	"ipx": {
+		"id": "inpulse-x"
+	},
+	"cpool": {
+		"id": "clearpool"
+	},
+	"xpx": {
+		"id": "proximax"
+	},
+	"iqn": {
+		"id": "iqeon"
+	},
+	"gswap": {
+		"id": "gameswap-org"
+	},
+	"mph": {
+		"id": "88mph"
+	},
+	"prob": {
+		"id": "probit-exchange"
+	},
+	"sha": {
+		"id": "safe-haven"
+	},
+	"sylo": {
+		"id": "sylo"
+	},
+	"ubx": {
+		"id": "ubix-network"
+	},
+	"srk": {
+		"id": "sparkpoint"
+	},
+	"vemp": {
+		"id": "vempire-ddao"
+	},
+	"ifc": {
+		"id": "infinitecoin"
+	},
+	"slrs": {
+		"id": "solrise-finance"
+	},
+	"gm": {
+		"id": "gmcoin"
+	},
+	"chi": {
+		"id": "chi"
+	},
+	"lotto": {
+		"id": "lotto"
+	},
+	"ring": {
+		"id": "darwinia-network-native-token"
+	},
+	"muse": {
+		"id": "muse-2"
+	},
+	"wabi": {
+		"id": "wabi"
+	},
+	"part": {
+		"id": "particl"
+	},
+	"tarot": {
+		"id": "tarot"
+	},
+	"maha": {
+		"id": "mahadao"
+	},
+	"k21": {
+		"id": "k21"
+	},
+	"upunk": {
+		"id": "unicly-cryptopunks-collection"
+	},
+	"trv": {
+		"id": "trustverse"
+	},
+	"tulip": {
+		"id": "solfarm"
+	},
+	"matter": {
+		"id": "antimatter"
+	},
+	"xcur": {
+		"id": "curate"
+	},
+	"wom": {
+		"id": "wom-token"
+	},
+	"uncx": {
+		"id": "unicrypt-2"
+	},
+	"betu": {
+		"id": "betu"
+	},
+	"agrs": {
+		"id": "agoras-currency-of-tau"
+	},
+	"cloak": {
+		"id": "cloakcoin"
+	},
+	"zano": {
+		"id": "zano"
+	},
+	"mint": {
+		"id": "mint-club"
+	},
+	"ham": {
+		"id": "hamster"
+	},
+	"strx": {
+		"id": "strikecoin"
+	},
+	"cwv": {
+		"id": "cryptoworld-vip"
+	},
+	"gal": {
+		"id": "galatasaray-fan-token"
+	},
+	"ignis": {
+		"id": "ignis"
+	},
+	"well": {
+		"id": "bitwell-token"
+	},
+	"psp": {
+		"id": "paraswap"
+	},
+	"visr": {
+		"id": "visor"
+	},
+	"deri": {
+		"id": "deri-protocol"
+	},
+	"nftd": {
+		"id": "nftrade"
+	},
+	"suter": {
+		"id": "suterusu"
+	},
+	"xrune": {
+		"id": "thorstarter"
+	},
+	"sata": {
+		"id": "signata"
+	},
+	"amb": {
+		"id": "amber"
+	},
+	"valor": {
+		"id": "smart-valor"
+	},
+	"zoo": {
+		"id": "zookeeper"
+	},
+	"vltc": {
+		"id": "venus-ltc"
+	},
+	"1art": {
+		"id": "1art"
+	},
+	"dtep": {
+		"id": "decoin"
+	},
+	"fo": {
+		"id": "fibos"
+	},
+	"ice": {
+		"id": "decentral-games-ice"
+	},
+	"ringx": {
+		"id": "ring-x-platform"
+	},
+	"ipad": {
+		"id": "infinity-pad"
+	},
+	"ghc": {
+		"id": "galaxy-heroes-coin"
+	},
+	"dfl": {
+		"id": "defi-land"
+	},
+	"gnx": {
+		"id": "genaro-network"
+	},
+	"APM": {
+		"id": "apm-coin"
+	},
+	"pacoca": {
+		"id": "pacoca"
+	},
+	"vlink": {
+		"id": "venus-link"
+	},
+	"fara": {
+		"id": "faraland"
+	},
+	"olt": {
+		"id": "one-ledger"
+	},
+	"don": {
+		"id": "don-key"
+	},
+	"metapets": {
+		"id": "metapets"
+	},
+	"dip": {
+		"id": "etherisc"
+	},
+	"mfg": {
+		"id": "smart-mfg"
+	},
+	"DogeDash": {
+		"id": "doge-dash"
+	},
+	"lith": {
+		"id": "litherium"
+	},
+	"nebl": {
+		"id": "neblio"
+	},
+	"swftc": {
+		"id": "swftcoin"
+	},
+	"levl": {
+		"id": "levolution"
+	},
+	"zyn": {
+		"id": "zynecoin"
+	},
+	"karma": {
+		"id": "karma-dao"
+	},
+	"dps": {
+		"id": "deepspace"
+	},
+	"stax": {
+		"id": "stax-protocol"
+	},
+	"anct": {
+		"id": "anchor"
+	},
+	"mitx": {
+		"id": "morpheus-labs"
+	},
+	"juld": {
+		"id": "julswap"
+	},
+	"shroom": {
+		"id": "shroom-finance"
+	},
+	"rdn": {
+		"id": "raiden-network"
+	},
+	"dht": {
+		"id": "dhedge-dao"
+	},
+	"SWINGBY": {
+		"id": "swingby"
+	},
+	"oxb": {
+		"id": "oxbull-tech"
+	},
+	"sarco": {
+		"id": "sarcophagus"
+	},
+	"maapl": {
+		"id": "mirrored-apple"
+	},
+	"nxt": {
+		"id": "nxt"
+	},
+	"inxt": {
+		"id": "internxt"
+	},
+	"labs": {
+		"id": "labs-group"
+	},
+	"mslv": {
+		"id": "mirrored-ishares-silver-trust"
+	},
+	"phb": {
+		"id": "phoenix-global"
+	},
+	"awc": {
+		"id": "atomic-wallet-coin"
+	},
+	"skey": {
+		"id": "skey-network"
+	},
+	"bly": {
+		"id": "blocery"
+	},
+	"mqqq": {
+		"id": "mirrored-invesco-qqq-trust"
+	},
+	"zee": {
+		"id": "zeroswap"
+	},
+	"oax": {
+		"id": "openanx"
+	},
+	"xtm": {
+		"id": "torum"
+	},
+	"swop": {
+		"id": "swop"
+	},
+	"aoa": {
+		"id": "aurora"
+	},
+	"mcb": {
+		"id": "mcdex"
+	},
+	"hpt": {
+		"id": "huobi-pool-token"
+	},
+	"mod": {
+		"id": "modefi"
+	}
+}

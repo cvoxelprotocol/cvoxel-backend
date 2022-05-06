@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /userAuth/{userId}/{document=**} {
+      allow get, list, create, update, delete: if isAuthentificated(userId)
+    }
+
+    match /users/{userId}/{document=**} {
+      allow get, list: if true
+      allow create, update, delete: if isAuthentificated(userId)
+    }
+
+    match /cvoxels/{hash}/{document=**} {
+      allow get, list: if true
+      allow create, update, delete: if false
+    }
+
+    //func
+    function isLogin() {
+      return request.auth.uid != null;
+    }
+
+    function onlyIdentityUser(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isAuthentificated(userId) {
+      return isLogin() && onlyIdentityUser(userId)
+    }
+
+    function isRelatedAddress() {
+      return request.auth.uid in resource.data.relatedAddresses
+    }
+  }
+}
