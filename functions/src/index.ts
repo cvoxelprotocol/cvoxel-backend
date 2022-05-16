@@ -6,6 +6,8 @@ import * as sgMail from "@sendgrid/mail";
 import BigNumber from "bignumber.js";
 import fetch from "node-fetch";
 import { formatUnits } from "@ethersproject/units";
+import { toUtf8Bytes } from "@ethersproject/strings";
+import { hexlify } from "@ethersproject/bytes";
 
 let FB_CREDENTIAL;
 let FB_DATABASE_URL;
@@ -134,11 +136,20 @@ export const createDraftWighVerify = functions.https.onCall(
         draft.deliverable
       );
 
+      console.log("message", JSON.stringify(message));
+
+      const dataBytes =
+        typeof message === "string" ? toUtf8Bytes(message) : message;
+
       // Recover the address of the account used to create the given Ethereum signature.
       const recoveredAddress = recoverPersonalSignature({
-        data: `0x${toHex(message)}`,
+        data: hexlify(dataBytes),
         signature: signature,
       });
+
+      console.log("recoveredAddress", recoveredAddress);
+      console.log("address", address.toLowerCase());
+      console.log("signature", signature);
 
       if (recoveredAddress.toLowerCase() === address.toLowerCase()) {
         // add fiat value
@@ -221,11 +232,18 @@ export const updateDraftWighVerify = functions.https.onCall(
         draft.deliverable
       );
 
+      const dataBytes =
+        typeof message === "string" ? toUtf8Bytes(message) : message;
+
       // Recover the address of the account used to create the given Ethereum signature.
       const recoveredAddress = recoverPersonalSignature({
-        data: `0x${toHex(message)}`,
+        data: hexlify(dataBytes),
         signature: signature,
       });
+
+      console.log("recoveredAddress", recoveredAddress);
+      console.log("address", address.toLowerCase());
+      console.log("signature", signature);
 
       if (recoveredAddress === address) {
         const isPayee: boolean = address === draft.to.toLowerCase();
@@ -505,12 +523,6 @@ const formatDate = (dateStr: string): string => {
   return `${d[2].split("T")[0]}-${d[1]}-${d[0]}`;
 };
 
-const toHex = (stringToConvert: string) =>
-  stringToConvert
-    .split("")
-    .map((c) => c.charCodeAt(0).toString(16).padStart(2, "0"))
-    .join("");
-
 // send mail
 const sendMail = async (
   messageData: any,
@@ -541,9 +553,9 @@ const getMessageForSignature = (
   deliverable?: string
 ): string => {
   return `Claim C-Voxel for work detail below\n\nsummary: ${summary}\ndescription: ${
-    description || ""
+    description ?? ""
   }\ndeliverable: ${
-    deliverable || ""
+    deliverable ?? ""
   }\ntxHash: ${txHash}\naddress: ${txAddress}`;
 };
 // =======Utils=======
