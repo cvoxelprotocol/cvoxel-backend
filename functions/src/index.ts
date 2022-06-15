@@ -2,7 +2,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import { recoverPersonalSignature } from "@metamask/eth-sig-util";
-import * as sgMail from "@sendgrid/mail";
+// import * as sgMail from "@sendgrid/mail";
 import BigNumber from "bignumber.js";
 import fetch from "node-fetch";
 import { formatUnits } from "@ethersproject/units";
@@ -37,7 +37,7 @@ type CVoxel = {
   isPayer: boolean;
   summary: string; // work summary
   detail?: string; // work detail
-  deliverable?: string; // deliberable link
+  deliverables?: DeliverableItem[]; // deliberable link
   value: string; // reward value
   tokenSymbol: string; // eth, usdc, etc
   tokenDecimal: number;
@@ -59,6 +59,11 @@ type CVoxel = {
   createdAt?: string; // timestamp to be created
   updatedAt?: string; // timestamp to be updated
   relatedAddresses: string[]; // all addresses related to this cvoxel. may contain both EOA and contract address
+};
+
+type DeliverableItem = {
+  type: string;
+  value: string;
 };
 
 type CVoxelMetaDraft = CVoxel & {
@@ -127,13 +132,15 @@ export const createDraftWighVerify = functions.https.onCall(
       const isPayee: boolean = address.toLowerCase() === draft.to.toLowerCase();
 
       const signature = isPayee ? draft.toSig : draft.fromSig;
-
+      const deliverable = draft.deliverables
+        ? draft.deliverables.map((d) => d.value).join(",")
+        : undefined;
       const message = getMessageForSignature(
         draft.txHash,
         address.toLowerCase(),
         draft.summary,
         draft.detail,
-        draft.deliverable
+        deliverable
       );
 
       console.log("message", JSON.stringify(message));
@@ -165,8 +172,7 @@ export const createDraftWighVerify = functions.https.onCall(
           fiatSymbol: "USD",
         };
 
-        const cVoxelDocRef = admin
-          .firestore()
+        const cVoxelDocRef = db
           .collection("cvoxels")
           .doc(`${draft.networkId}_${draft.txHash}`);
         const cVoxelDoc = await cVoxelDocRef.get();
@@ -209,10 +215,7 @@ export const updateDraftWighVerify = functions.https.onCall(
 
       const address = addressVal.toLowerCase();
 
-      const cVoxelDocRef = admin
-        .firestore()
-        .collection("cvoxels")
-        .doc(`${networkId}_${hash}`);
+      const cVoxelDocRef = db.collection("cvoxels").doc(`${networkId}_${hash}`);
       const draftDoc = await cVoxelDocRef.get();
 
       if (!draftDoc.exists) {
@@ -223,13 +226,15 @@ export const updateDraftWighVerify = functions.https.onCall(
       }
 
       const draft = draftDoc.data() as CVoxelMetaDraft;
-
+      const deliverable = draft.deliverables
+        ? draft.deliverables.map((d) => d.value).join(",")
+        : undefined;
       const message = getMessageForSignature(
         draft.txHash,
         address,
         draft.summary,
         draft.detail,
-        draft.deliverable
+        deliverable
       );
 
       const dataBytes =
@@ -286,10 +291,7 @@ export const setFiat = functions.https.onCall(async (data: any) => {
       );
     }
 
-    const cVoxelDocRef = admin
-      .firestore()
-      .collection("cvoxels")
-      .doc(`${networkId}_${txHash}`);
+    const cVoxelDocRef = db.collection("cvoxels").doc(`${networkId}_${txHash}`);
     const draftDoc = await cVoxelDocRef.get();
 
     if (!draftDoc.exists) {
@@ -524,26 +526,26 @@ const formatDate = (dateStr: string): string => {
 };
 
 // send mail
-const sendMail = async (
-  messageData: any,
-  templateId: string,
-  email: string
-) => {
-  sgMail.setApiKey(functions.config().sendgrid.apikey);
+// const sendMail = async (
+//   messageData: any,
+//   templateId: string,
+//   email: string
+// ) => {
+//   sgMail.setApiKey(functions.config().sendgrid.apikey);
 
-  const msg = {
-    to: email,
-    from: "info@lanc.app",
-    replyTo: "info@lanc.app",
-    templateId: templateId,
-    dynamic_template_data: messageData,
-  };
-  try {
-    await sgMail.send(msg);
-  } catch (error) {
-    console.error(error);
-  }
-};
+//   const msg = {
+//     to: email,
+//     from: "info@lanc.app",
+//     replyTo: "info@lanc.app",
+//     templateId: templateId,
+//     dynamic_template_data: messageData,
+//   };
+//   try {
+//     await sgMail.send(msg);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 const getMessageForSignature = (
   txHash: string,
@@ -559,37 +561,3 @@ const getMessageForSignature = (
   }\ntxHash: ${txHash}\naddress: ${txAddress}`;
 };
 // =======Utils=======
-
-// =======unused currentlly=======
-export const sendMailViaSg = functions.https.onCall(async (data: any) => {
-  try {
-    const { address, link, templateId } = data;
-    const userDoc = await db.collection("users").doc(address).get();
-    const email = userDoc.data()?.email;
-    const name = userDoc.data()?.name ? userDoc.data()?.name : "LanC. friend";
-
-    if (email) {
-      const messageData = {
-        name: name,
-        link: link,
-      };
-
-      await sendMail(messageData, templateId, email).catch((error) => {
-        throw new functions.https.HttpsError(
-          "unknown",
-          "The function must be called while authenticated."
-        );
-      });
-      return { status: "ok" };
-    } else {
-      return { status: "ng" };
-    }
-  } catch (err) {
-    console.log(err);
-    throw new functions.https.HttpsError(
-      "unknown",
-      "The function must be called while authenticated."
-    );
-  }
-});
-// =======unused currentlly=======
