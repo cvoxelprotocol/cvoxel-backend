@@ -19,6 +19,10 @@ service cloud.firestore {
       allow create: if true
     }
 
+    match /drafts/{hash}/{document=**} {
+      allow get, list, create, update, delete: if true
+    }
+
     //func
     function isLogin() {
       return request.auth.uid != null;
