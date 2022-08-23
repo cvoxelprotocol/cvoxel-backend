@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import { recoverPersonalSignature } from "@metamask/eth-sig-util";
+// import { recoverPersonalSignature } from "@metamask/eth-sig-util";
 // import * as sgMail from "@sendgrid/mail";
 import BigNumber from "bignumber.js";
 import fetch from "node-fetch";
 import { formatUnits } from "@ethersproject/units";
-import { toUtf8Bytes } from "@ethersproject/strings";
-import { hexlify } from "@ethersproject/bytes";
+// import { toUtf8Bytes } from "@ethersproject/strings";
+// import { hexlify } from "@ethersproject/bytes";
 
 let FB_CREDENTIAL;
 let FB_DATABASE_URL;
@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === "production" && APP_ENV === "production") {
   FB_DATABASE_URL = "https://cvoxel-testnet.firebaseio.com";
 } else {
   FB_CREDENTIAL = require("./service-account-key-staging.json");
-  FB_DATABASE_URL = "https://escrow-dev-3d429.firebaseapp.com";
+  FB_DATABASE_URL = "https://cvoxel-dev.firebaseio.com";
 }
 
 admin.initializeApp({
@@ -139,62 +139,50 @@ export const createWCDraftWighVerify = functions.https.onCall(
       const isPayee: boolean = address.toLowerCase() === draft.to.toLowerCase();
 
       const signature = isPayee ? draft.toSig : draft.fromSig;
-      const deliverable = draft.deliverables
-        ? draft.deliverables.map((d) => d.value).join(",")
-        : undefined;
-      const message = getMessageForSignatureV2(
-        draft.txHash,
-        address.toLowerCase(),
-        draft.summary,
-        draft.detail,
-        deliverable
-      );
+      // const deliverable = draft.deliverables
+      //   ? draft.deliverables.map((d) => d.value).join(",")
+      //   : undefined;
+      // const message = getMessageForSignatureV2(
+      //   draft.txHash,
+      //   address.toLowerCase(),
+      //   draft.summary,
+      //   draft.detail,
+      //   deliverable
+      // );
 
-      console.log("message", JSON.stringify(message));
+      // console.log("message", JSON.stringify(message));
 
-      const dataBytes =
-        typeof message === "string" ? toUtf8Bytes(message) : message;
+      // const dataBytes =
+      //   typeof message === "string" ? toUtf8Bytes(message) : message;
 
       // Recover the address of the account used to create the given Ethereum signature.
-      const recoveredAddress = recoverPersonalSignature({
-        data: hexlify(dataBytes),
-        signature: signature,
-      });
+      // const recoveredAddress = recoverPersonalSignature({
+      //   data: hexlify(dataBytes),
+      //   signature: signature,
+      // });
 
-      console.log("recoveredAddress", recoveredAddress);
+      // console.log("recoveredAddress", recoveredAddress);
       console.log("address", address.toLowerCase());
       console.log("signature", signature);
 
-      if (recoveredAddress.toLowerCase() === address.toLowerCase()) {
-        // add fiat value
-        const fiat = await getFiatValue(
-          draft.value,
-          draft.tokenSymbol,
-          draft.tokenDecimal ? draft.tokenDecimal.toString() : "18",
-          draft.issuedTimestamp
-        );
-        const cvoxelMeta: CVoxel = {
-          ...draft,
-          fiatValue: fiat,
-          fiatSymbol: "USD",
-        };
+      // add fiat value
+      const fiat = await getFiatValue(
+        draft.value,
+        draft.tokenSymbol,
+        draft.tokenDecimal ? draft.tokenDecimal.toString() : "18",
+        draft.issuedTimestamp
+      );
+      const cvoxelMeta: CVoxel = {
+        ...draft,
+        fiatValue: fiat,
+        fiatSymbol: "USD",
+      };
 
-        const cVoxelDocRef = db
-          .collection("cvoxels")
-          .doc(`${draft.networkId}_${draft.txHash}`);
-        const cVoxelDoc = await cVoxelDocRef.get();
-        if (!cVoxelDoc.exists) {
-          await cVoxelDocRef.set(cvoxelMeta);
-        } else {
-          await cVoxelDocRef.update(cvoxelMeta);
-        }
-        return { status: "ok", fiat: fiat };
-      } else {
-        throw new functions.https.HttpsError(
-          "permission-denied",
-          "signature is not valid"
-        );
-      }
+      const cVoxelDocRef = db
+        .collection("cvoxels")
+        .doc(`${draft.networkId}_${draft.txHash}`);
+      await cVoxelDocRef.set(cvoxelMeta, { merge: true });
+      return { status: "ok", fiat: fiat };
     } catch (err) {
       console.log("error", err);
       throw new functions.https.HttpsError(
@@ -204,6 +192,31 @@ export const createWCDraftWighVerify = functions.https.onCall(
     }
   }
 );
+
+export const uploadDraft = functions.https.onCall(async (data: any) => {
+  console.log({ data });
+  if (!data.draft) {
+    throw new functions.https.HttpsError(
+      "failed-precondition",
+      "you must include draft"
+    );
+  }
+
+  try {
+    const draft = data.draft as CVoxelMetaDraft;
+    const cVoxelDocRef = db
+      .collection("cvoxels")
+      .doc(`${draft.networkId}_${draft.txHash}`);
+    await cVoxelDocRef.set(draft, { merge: true });
+    return { status: "ok" };
+  } catch (err) {
+    console.log("error", err);
+    throw new functions.https.HttpsError(
+      "unknown",
+      "The function must be called while authenticated."
+    );
+  }
+});
 
 export const createDraftWighVerify = functions.https.onCall(
   async (data: any) => {
@@ -221,62 +234,50 @@ export const createDraftWighVerify = functions.https.onCall(
       const isPayee: boolean = address.toLowerCase() === draft.to.toLowerCase();
 
       const signature = isPayee ? draft.toSig : draft.fromSig;
-      const deliverable = draft.deliverables
-        ? draft.deliverables.map((d) => d.value).join(",")
-        : undefined;
-      const message = getMessageForSignature(
-        draft.txHash,
-        address.toLowerCase(),
-        draft.summary,
-        draft.detail,
-        deliverable
-      );
+      // const deliverable = draft.deliverables
+      //   ? draft.deliverables.map((d) => d.value).join(",")
+      //   : undefined;
+      // const message = getMessageForSignature(
+      //   draft.txHash,
+      //   address.toLowerCase(),
+      //   draft.summary,
+      //   draft.detail,
+      //   deliverable
+      // );
 
-      console.log("message", JSON.stringify(message));
+      // console.log("message", JSON.stringify(message));
 
-      const dataBytes =
-        typeof message === "string" ? toUtf8Bytes(message) : message;
+      // const dataBytes =
+      //   typeof message === "string" ? toUtf8Bytes(message) : message;
 
       // Recover the address of the account used to create the given Ethereum signature.
-      const recoveredAddress = recoverPersonalSignature({
-        data: hexlify(dataBytes),
-        signature: signature,
-      });
+      // const recoveredAddress = recoverPersonalSignature({
+      //   data: hexlify(dataBytes),
+      //   signature: signature,
+      // });
 
-      console.log("recoveredAddress", recoveredAddress);
+      // console.log("recoveredAddress", recoveredAddress);
       console.log("address", address.toLowerCase());
       console.log("signature", signature);
 
-      if (recoveredAddress.toLowerCase() === address.toLowerCase()) {
-        // add fiat value
-        const fiat = await getFiatValue(
-          draft.value,
-          draft.tokenSymbol,
-          draft.tokenDecimal ? draft.tokenDecimal.toString() : "18",
-          draft.issuedTimestamp
-        );
-        const cvoxelMeta: CVoxel = {
-          ...draft,
-          fiatValue: fiat,
-          fiatSymbol: "USD",
-        };
+      // add fiat value
+      const fiat = await getFiatValue(
+        draft.value,
+        draft.tokenSymbol,
+        draft.tokenDecimal ? draft.tokenDecimal.toString() : "18",
+        draft.issuedTimestamp
+      );
+      const cvoxelMeta: CVoxel = {
+        ...draft,
+        fiatValue: fiat,
+        fiatSymbol: "USD",
+      };
 
-        const cVoxelDocRef = db
-          .collection("cvoxels")
-          .doc(`${draft.networkId}_${draft.txHash}`);
-        const cVoxelDoc = await cVoxelDocRef.get();
-        if (!cVoxelDoc.exists) {
-          await cVoxelDocRef.set(cvoxelMeta);
-        } else {
-          await cVoxelDocRef.update(cvoxelMeta);
-        }
-        return { status: "ok", fiat: fiat };
-      } else {
-        throw new functions.https.HttpsError(
-          "permission-denied",
-          "signature is not valid"
-        );
-      }
+      const cVoxelDocRef = db
+        .collection("cvoxels")
+        .doc(`${draft.networkId}_${draft.txHash}`);
+      await cVoxelDocRef.set(cvoxelMeta, { merge: true });
+      return { status: "ok", fiat: fiat };
     } catch (err) {
       console.log("error", err);
       throw new functions.https.HttpsError(
@@ -651,31 +652,31 @@ const formatDate = (dateStr: string): string => {
 //   }
 // };
 
-const getMessageForSignature = (
-  txHash: string,
-  txAddress: string,
-  summary: string,
-  description?: string,
-  deliverable?: string
-): string => {
-  return `Claim C-Voxel for work detail below\n\nsummary: ${summary}\ndescription: ${
-    description ?? ""
-  }\ndeliverable: ${
-    deliverable ?? ""
-  }\ntxHash: ${txHash}\naddress: ${txAddress}`;
-};
+// const getMessageForSignature = (
+//   txHash: string,
+//   txAddress: string,
+//   summary: string,
+//   description?: string,
+//   deliverable?: string
+// ): string => {
+//   return `Claim WorkCRDL for work detail below\n\nsummary: ${summary}\ndescription: ${
+//     description ?? ""
+//   }\ndeliverable: ${
+//     deliverable ?? ""
+//   }\ntxHash: ${txHash}\naddress: ${txAddress}`;
+// };
 
-const getMessageForSignatureV2 = (
-  txHash: string,
-  txAddress: string,
-  summary: string,
-  description?: string,
-  deliverable?: string
-): string => {
-  return `Claim Work Credential\n\nsummary: ${summary}\ndescription: ${
-    description ?? ""
-  }\ndeliverable: ${
-    deliverable ?? ""
-  }\ntxHash: ${txHash}\naddress: ${txAddress}`;
-};
+// const getMessageForSignatureV2 = (
+//   txHash: string,
+//   txAddress: string,
+//   summary: string,
+//   description?: string,
+//   deliverable?: string
+// ): string => {
+//   return `Claim Work Credential\n\nsummary: ${summary}\ndescription: ${
+//     description ?? ""
+//   }\ndeliverable: ${
+//     deliverable ?? ""
+//   }\ntxHash: ${txHash}\naddress: ${txAddress}`;
+// };
 // =======Utils=======
