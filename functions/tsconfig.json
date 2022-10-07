@@ -1,16 +1,27 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "outDir": "lib",
     "sourceMap": true,
+    "resolveJsonModule": true,
     "strict": true,
+    "allowJs": true,
   },
+  "lib": [
+    "ESNext" /* ESNext includes new Level-4 features that were
+             recently added to the ECMA-262 JS spec */
+   ],
   "compileOnSave": true,
   "include": [
     "src"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

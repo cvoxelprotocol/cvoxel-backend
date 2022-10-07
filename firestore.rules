@@ -1,10 +1,6 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /userAuth/{userId}/{document=**} {
-      allow get, list, create, update, delete: if isAuthentificated(userId)
-    }
-
     match /users/{userId}/{document=**} {
       allow get, list: if true
       allow create, update, delete: if isAuthentificated(userId)
@@ -23,6 +19,30 @@ service cloud.firestore {
       allow get, list, create, update, delete: if true
     }
 
+    match /credentials/{hash}/{document=**} {
+      allow get, list, create, update, delete: if true
+    }
+
+    match /connections/{walletAddress}/{document=**} {
+      allow get, list: if true
+      allow create, update, delete: if false
+    }
+
+    match /DeworkOrg/{orgId}/{document=**} {
+      allow get, list: if true
+      allow create, update, delete: if false
+    }
+
+    match /deworkTasks/{walletAddress}/{document=**} {
+      allow get, list: if true
+      allow create, update, delete: if false
+
+    // match /tasks/{taskId}/{document=**} {
+      //   allow get, list: if true
+      //   allow create, update, delete: if false
+      // }
+    }
+
     //func
     function isLogin() {
       return request.auth.uid != null;
@@ -34,10 +54,6 @@ service cloud.firestore {
 
     function isAuthentificated(userId) {
       return isLogin() && onlyIdentityUser(userId)
-    }
-
-    function isRelatedAddress() {
-      return request.auth.uid in resource.data.relatedAddresses
     }
   }
 }
