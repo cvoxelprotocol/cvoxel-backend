@@ -2,19 +2,36 @@ import { signTypedData, SignTypedDataVersion } from "@metamask/eth-sig-util";
 import { ethers, providers } from "ethers";
 import {
   CLIENT_EIP712_TYPE,
+  CREDENTIAL_SCHEMA_W3C_TYPE,
   DELIVERABLES_EIP712_TYPE,
   DOMAIN_TYPE,
   EIP712DomainTypedData,
+  EIP712MessageTypes,
+  EIP712TypedData,
   EIP712WorkCredentialSubjectTypedData,
+  EVENT_ATTENDANCE_EIP712_TYPE,
+  ISSUER_EIP712_TYPE,
   PRIMARY_SUBJECT_TYPE,
+  Proof,
+  SignTypedData,
   TX_EIP712_TYPE,
+  VerifiableCredential,
+  VERIFIABLE_CREDENTIAL_PRIMARY_TYPE,
+  VERIFIABLE_CREDENTIAL_W3C_TYPE,
+  W3CCredential,
+  W3CCredentialTypedData,
   WORK_EIP712_TYPE,
   WORK_SUBJECT_EIP712_TYPE,
 } from "../types/eip712.js";
 import {
+  EventWithId,
   WorkCredentialWithDeworkTaskId,
   WorkSubjectFromDework,
 } from "../types/workCredential.js";
+import {
+  EventAttendance,
+  EventAttendanceVerifiableCredential,
+} from "../__generated__/types/EventAttendanceVerifiableCredential.js";
 import {
   DeliverableItem,
   Signatures,
@@ -27,6 +44,13 @@ import {
   convertDateToTimestampStr,
 } from "./commonUtil.js";
 import { cast2WorkSubject } from "./typeUtils.js";
+
+export const DEFAULT_CONTEXT = "https://www.w3.org/2018/credentials/v1";
+export const EIP712_CONTEXT =
+  "https://raw.githubusercontent.com/w3c-ccg/ethereum-eip712-signature-2021-spec/main/contexts/v1/index.json";
+export const DEFAULT_VC_TYPE = "VerifiableCredential";
+export const MEMBERSHIP_VC_TYPE = "MembershipCredential";
+export const EVENT_ATTENDANCE_VC_TYPE = "EventAttendanceCredential";
 
 export const createWorkCRDLsFromDework = async (
   subjects: WorkSubjectFromDework[]
@@ -196,5 +220,169 @@ const convertValidworkSubjectTypedData = (
     tx: castUndifined2DefaultValue(subject.tx, TX_EIP712_TYPE),
     client: castUndifined2DefaultValue(subject.client, CLIENT_EIP712_TYPE),
     deliverables: deliverables,
+  };
+};
+
+// Event Attendance
+export const issueEventAttendanceCredentials = async (
+  event: EventWithId,
+  dids: string[]
+): Promise<EventAttendanceVerifiableCredential[]> => {
+  const PRIVATE_KEY = process.env.PROXY_PRIVATE_KEY;
+  const ALCHEMY_API_KEY = process.env.ALCHEMY_KEY;
+  if (!PRIVATE_KEY || !ALCHEMY_API_KEY) {
+    throw new Error("Missing agent private key");
+  }
+  const provider = new providers.AlchemyProvider("homestead", ALCHEMY_API_KEY);
+  const wallet = new ethers.Wallet(PRIVATE_KEY);
+  const signer = wallet.connect(provider);
+  let issuanceDate = Date.now();
+  let expirationDate = new Date();
+  expirationDate.setFullYear(expirationDate.getFullYear() + 100);
+
+  const issuanceDateStr = new Date(issuanceDate).toISOString();
+  const expirationDateStr = new Date(expirationDate).toISOString();
+
+  const issuePromises: Promise<EventAttendanceVerifiableCredential>[] = [];
+
+  console.log("wallet: ", signer.address);
+
+  for (const did of dids) {
+    const content: EventAttendance = {
+      id: did,
+      eventId: event.ceramicId,
+      eventName: event.name,
+      eventIcon: event.icon,
+    };
+    const issuePromise = createEventAttendanceCredential(
+      content,
+      issuanceDateStr,
+      expirationDateStr,
+      provider,
+      signer
+    );
+    issuePromises.push(issuePromise);
+  }
+  return await Promise.all(issuePromises);
+};
+export const createEventAttendanceCredential = async (
+  eventAttendance: EventAttendance,
+  issuanceDate: string,
+  expirationDate: string,
+  provider: ethers.providers.AlchemyProvider,
+  signer: ethers.Wallet
+): Promise<EventAttendanceVerifiableCredential> => {
+  if (!provider) throw "Missing provider for getSignature";
+
+  const credentialId = `${eventAttendance.eventId}-${eventAttendance.id}`;
+  const address = await signer.getAddress();
+  const issuerDID = getPkhDIDFromAddress(address);
+
+  let credential: W3CCredential = {
+    "@context": [DEFAULT_CONTEXT, EIP712_CONTEXT],
+    type: [DEFAULT_VC_TYPE, EVENT_ATTENDANCE_VC_TYPE],
+    id: credentialId,
+    issuer: {
+      id: issuerDID,
+      ethereumAddress: address,
+    },
+    credentialSubject: eventAttendance,
+    credentialSchema: {
+      id: "https://app.vess.id/schemas/EventAttendance.json",
+      type: "Eip712SchemaValidator2021",
+    },
+    issuanceDate: issuanceDate,
+    expirationDate: expirationDate,
+  };
+
+  const domain: EIP712DomainTypedData = {
+    name: "Verifiable Event Attendance",
+    version: "1",
+    chainId: provider.network.chainId,
+    verifyingContract: "0x00000000000000000000000000000000000000000000", // WIP
+  };
+
+  const vc: VerifiableCredential = await createEIP712VerifiableCredential(
+    domain,
+    credential,
+    { CredentialSubject: EVENT_ATTENDANCE_EIP712_TYPE },
+    async (data: EIP712TypedData<EIP712MessageTypes>) => {
+      const privateKey = Buffer.from(signer.privateKey.substring(2, 66), "hex");
+      const sig = signTypedData({
+        privateKey: privateKey,
+        data: data,
+        version: SignTypedDataVersion.V4,
+      });
+      return sig;
+    }
+  );
+  return vc as EventAttendanceVerifiableCredential;
+};
+
+export const createEIP712VerifiableCredential = async (
+  domain: EIP712DomainTypedData,
+  credential: W3CCredential,
+  credentialSubjectTypes: any,
+  signTypedData: SignTypedData<EIP712MessageTypes>
+): Promise<VerifiableCredential> => {
+  const credentialTypedData = getW3CCredentialTypedData(
+    domain,
+    credential,
+    credentialSubjectTypes
+  );
+
+  let signature = await signTypedData(credentialTypedData);
+
+  let proof: Proof = {
+    verificationMethod:
+      credentialTypedData.message.issuer.id + "#ethereumAddress",
+    ethereumAddress: credentialTypedData.message.issuer.ethereumAddress,
+    created: new Date(Date.now()).toISOString(),
+    proofPurpose: "assertionMethod",
+    type: "EthereumEip712Signature2021",
+    ...credentialTypedData.message.proof,
+    proofValue: signature,
+    eip712: {
+      domain: { ...credentialTypedData.domain },
+      types: { ...credentialTypedData.types },
+      primaryType: credentialTypedData.primaryType,
+    },
+  };
+
+  let verifiableCredential = {
+    ...credential,
+    proof,
+  };
+
+  return verifiableCredential;
+};
+
+const getW3CCredentialTypedData = (
+  domain: EIP712DomainTypedData,
+  credential: W3CCredential,
+  credentialSubjectTypes: any
+): W3CCredentialTypedData => {
+  return {
+    domain: getDomainTypedData(domain),
+    primaryType: VERIFIABLE_CREDENTIAL_PRIMARY_TYPE,
+    message: credential,
+    types: {
+      EIP712Domain: DOMAIN_TYPE,
+      VerifiableCredential: VERIFIABLE_CREDENTIAL_W3C_TYPE,
+      CredentialSchema: CREDENTIAL_SCHEMA_W3C_TYPE,
+      Issuer: ISSUER_EIP712_TYPE,
+      ...credentialSubjectTypes,
+    },
+  };
+};
+
+const getDomainTypedData = (
+  domain: EIP712DomainTypedData
+): EIP712DomainTypedData => {
+  return {
+    name: domain.name,
+    version: domain.version,
+    chainId: domain.chainId,
+    verifyingContract: domain.verifyingContract,
   };
 };
