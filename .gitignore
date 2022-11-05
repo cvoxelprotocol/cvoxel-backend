@@ -73,3 +73,5 @@ node_modules/
 lib/
 
 backup/
+
+.DS_Store

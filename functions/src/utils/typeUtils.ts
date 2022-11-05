@@ -1,5 +1,5 @@
 import { WorkSubjectFromDework } from "../types/workCredential.js";
-import { WorkSubject } from "../__generated__/types/WorkCredential.js";
+import { WorkSubject } from "vess-sdk";
 import { removeUndefined } from "./commonUtil.js";
 
 export const cast2WorkSubject = (

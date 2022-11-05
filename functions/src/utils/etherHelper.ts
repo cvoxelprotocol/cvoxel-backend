@@ -2,43 +2,33 @@ import { signTypedData, SignTypedDataVersion } from "@metamask/eth-sig-util";
 import { ethers, providers } from "ethers";
 import {
   CLIENT_EIP712_TYPE,
-  CREDENTIAL_SCHEMA_W3C_TYPE,
+  createEIP712VerifiableCredential,
+  DeliverableItem,
   DELIVERABLES_EIP712_TYPE,
   DOMAIN_TYPE,
   EIP712DomainTypedData,
   EIP712MessageTypes,
   EIP712TypedData,
   EIP712WorkCredentialSubjectTypedData,
+  EventAttendance,
+  EventAttendanceVerifiableCredential,
+  EventWithId,
   EVENT_ATTENDANCE_EIP712_TYPE,
-  ISSUER_EIP712_TYPE,
+  getPkhDIDFromAddress,
   PRIMARY_SUBJECT_TYPE,
-  Proof,
-  SignTypedData,
+  Signatures,
   TX_EIP712_TYPE,
   VerifiableCredential,
-  VERIFIABLE_CREDENTIAL_PRIMARY_TYPE,
-  VERIFIABLE_CREDENTIAL_W3C_TYPE,
   W3CCredential,
-  W3CCredentialTypedData,
+  WorkCredential,
+  WorkSubject,
   WORK_EIP712_TYPE,
   WORK_SUBJECT_EIP712_TYPE,
-} from "../types/eip712.js";
+} from "vess-sdk";
 import {
-  EventWithId,
   WorkCredentialWithDeworkTaskId,
   WorkSubjectFromDework,
 } from "../types/workCredential.js";
-import {
-  EventAttendance,
-  EventAttendanceVerifiableCredential,
-} from "../__generated__/types/EventAttendanceVerifiableCredential.js";
-import {
-  DeliverableItem,
-  Signatures,
-  WorkCredential,
-  WorkSubject,
-} from "../__generated__/types/WorkCredential.js";
-import { getPkhDIDFromAddress } from "./ceramicHelper.js";
 import {
   castUndifined2DefaultValue,
   convertDateToTimestampStr,
@@ -224,7 +214,7 @@ const convertValidworkSubjectTypedData = (
 };
 
 // Event Attendance
-export const issueEventAttendanceCredentials = async (
+export const createEventAttendanceCredentials = async (
   event: EventWithId,
   dids: string[]
 ): Promise<EventAttendanceVerifiableCredential[]> => {
@@ -244,8 +234,6 @@ export const issueEventAttendanceCredentials = async (
   const expirationDateStr = new Date(expirationDate).toISOString();
 
   const issuePromises: Promise<EventAttendanceVerifiableCredential>[] = [];
-
-  console.log("wallet: ", signer.address);
 
   for (const did of dids) {
     const content: EventAttendance = {
@@ -317,72 +305,4 @@ export const createEventAttendanceCredential = async (
     }
   );
   return vc as EventAttendanceVerifiableCredential;
-};
-
-export const createEIP712VerifiableCredential = async (
-  domain: EIP712DomainTypedData,
-  credential: W3CCredential,
-  credentialSubjectTypes: any,
-  signTypedData: SignTypedData<EIP712MessageTypes>
-): Promise<VerifiableCredential> => {
-  const credentialTypedData = getW3CCredentialTypedData(
-    domain,
-    credential,
-    credentialSubjectTypes
-  );
-
-  let signature = await signTypedData(credentialTypedData);
-
-  let proof: Proof = {
-    verificationMethod:
-      credentialTypedData.message.issuer.id + "#ethereumAddress",
-    ethereumAddress: credentialTypedData.message.issuer.ethereumAddress,
-    created: new Date(Date.now()).toISOString(),
-    proofPurpose: "assertionMethod",
-    type: "EthereumEip712Signature2021",
-    ...credentialTypedData.message.proof,
-    proofValue: signature,
-    eip712: {
-      domain: { ...credentialTypedData.domain },
-      types: { ...credentialTypedData.types },
-      primaryType: credentialTypedData.primaryType,
-    },
-  };
-
-  let verifiableCredential = {
-    ...credential,
-    proof,
-  };
-
-  return verifiableCredential;
-};
-
-const getW3CCredentialTypedData = (
-  domain: EIP712DomainTypedData,
-  credential: W3CCredential,
-  credentialSubjectTypes: any
-): W3CCredentialTypedData => {
-  return {
-    domain: getDomainTypedData(domain),
-    primaryType: VERIFIABLE_CREDENTIAL_PRIMARY_TYPE,
-    message: credential,
-    types: {
-      EIP712Domain: DOMAIN_TYPE,
-      VerifiableCredential: VERIFIABLE_CREDENTIAL_W3C_TYPE,
-      CredentialSchema: CREDENTIAL_SCHEMA_W3C_TYPE,
-      Issuer: ISSUER_EIP712_TYPE,
-      ...credentialSubjectTypes,
-    },
-  };
-};
-
-const getDomainTypedData = (
-  domain: EIP712DomainTypedData
-): EIP712DomainTypedData => {
-  return {
-    name: domain.name,
-    version: domain.version,
-    chainId: domain.chainId,
-    verifyingContract: domain.verifyingContract,
-  };
 };

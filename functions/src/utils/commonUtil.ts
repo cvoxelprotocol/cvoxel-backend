@@ -1,5 +1,11 @@
 import { formatUnits } from "ethers/lib/utils.js";
-import { TypedData } from "../types/eip712.js";
+import { TypedData } from "vess-sdk";
+import * as functions from "firebase-functions";
+
+export const isProd = () => {
+  const APP_ENV = functions.config().app.environment;
+  return process.env.NODE_ENV === "production" && APP_ENV === "production";
+};
 
 export const convertDateToTimestampStr = (date: Date): string => {
   return Math.floor(date.getTime() / 1000).toString();

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import * as functions from "firebase-functions";
-// import * as admin from "firebase-admin";
 // import { recoverPersonalSignature } from "@metamask/eth-sig-util";
 // import sgMail from "@sendgrid/mail";
 import { initializeApp, cert } from "firebase-admin/app";
@@ -12,13 +10,15 @@ import { recoverPersonalSignature } from "@metamask/eth-sig-util";
 import { FunctionsErrorCode } from "firebase-functions/v1/https";
 import { CVoxelMetaDraft } from "./types/cVoxel.js";
 import { UserConnection } from "./types/user.js";
-import { Task } from "./types.js";
+import { Task } from "./types/dework.js";
 import sgMail from "@sendgrid/mail";
 import {
   convertTimestampToDateStr,
   formatBigNumber,
+  isProd,
 } from "./utils/commonUtil.js";
 import { DeworkOrg } from "./types/Orgs.js";
+import { WorkSubjectFromDework } from "./types/workCredential.js";
 import {
   EventAttendanceWithId,
   EventWithId,
@@ -27,13 +27,9 @@ import {
   OrganizationWIthId,
   VerifiableWorkCredentialWithId,
   WorkCredentialWithId,
-  WorkSubjectFromDework,
-} from "./types/workCredential.js";
-import { Signatures } from "./__generated__/types/workCredential.js";
-import {
-  createOrganization,
-  removeCeramicPrefix,
-} from "./utils/ceramicHelper.js";
+  Signatures,
+} from "vess-sdk";
+import { createOrganization, initializeVESS } from "./utils/ceramicHelper.js";
 import {
   issueEventAttendanceCredential,
   issueWorkCRDLsFromDework,
@@ -48,21 +44,29 @@ import {
   EtherscanResult,
   TransactionLogWithChainId,
 } from "./types/TransactionLog.js";
-// import { BigNumber } from "bignumber.js";
+import { performance, PerformanceObserver } from "perf_hooks";
 import pkg from "bignumber.js";
+import { removeCeramicPrefix } from "vess-sdk";
 const { BigNumber } = pkg;
 const require = createRequire(import.meta.url);
-// import * as ProdKey from "./service-account-key-prod.json" assert { type: "json" };
-// import * as DevKey from "./service-account-key-prod.json" assert { type: "json" };
+
+// =====================Debug=====================
+const obs = new PerformanceObserver((items) => {
+  for (const item of items.getEntries()) {
+    console.log(`${item.name}'s duration: `, item.duration);
+  }
+});
+obs.observe({ type: "measure" });
+performance.measure("Start to Now");
+// =====================Debug=====================
 
 let FB_CREDENTIAL;
 let FB_DATABASE_URL;
 
-const APP_ENV = functions.config().app.environment;
 const ETHERSCAN_API_KEY = functions.config().apikey.etherscan;
 const POLYGON_API_KEY = functions.config().apikey.polygon;
 
-if (process.env.NODE_ENV === "production" && APP_ENV === "production") {
+if (isProd()) {
   FB_CREDENTIAL = require("./service-account-key-prod.json");
   FB_DATABASE_URL = "https://cvoxel-testnet.firebaseio.com";
 } else {
@@ -261,8 +265,6 @@ export const issueEventAttendances = functions.https.onCall(
       const event = data.event as EventWithId;
       const dids = data.dids as string[];
 
-      console.log({ event });
-      console.log({ dids });
       const docs = await issueEventAttendanceCredential(event, dids);
 
       const cRDLDocRef = db.collection("eventattendances");
@@ -572,6 +574,8 @@ export const getDeworkUserTasks = functions
           const batch = db.batch();
           const orgsArr: DeworkOrg[] = [];
 
+          const { vess } = await initializeVESS();
+
           for (const task of tasks) {
             // get client info
             let org: DeworkOrg | null = null;
@@ -591,6 +595,7 @@ export const getDeworkUserTasks = functions
                 const orgIcon = task.workspace.organization.imageUrl;
                 const orgDesc = task.workspace.organization.description;
                 const orgWithId = await createOrganization(
+                  vess,
                   orgName,
                   "0x0",
                   orgDesc,
@@ -682,6 +687,8 @@ export const reFetchDeworkUserTasks = functions
           const batch = db.batch();
           const orgsArr: DeworkOrg[] = [];
 
+          const { vess } = await initializeVESS();
+
           for (const task of newTasks) {
             // exclude claimed task
             if (claimedTaskIds.includes(task.id)) continue;
@@ -703,6 +710,7 @@ export const reFetchDeworkUserTasks = functions
                 const orgIcon = task.workspace.organization.imageUrl;
                 const orgDesc = task.workspace.organization.description;
                 const orgWithId: OrganizationWIthId = await createOrganization(
+                  vess,
                   orgName,
                   "0x0",
                   orgDesc,
