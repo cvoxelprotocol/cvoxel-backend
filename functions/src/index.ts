@@ -226,8 +226,12 @@ export const uploadEvent = functions.https.onCall(async (data: any) => {
 });
 
 // upload event attendance
-export const uploadEventAttendance = functions.https.onCall(
-  async (data: any) => {
+export const uploadEventAttendance = functions
+  .runWith({
+    timeoutSeconds: 300,
+    memory: "2GB",
+  })
+  .https.onCall(async (data: any) => {
     if (!data.event) {
       throw new functions.https.HttpsError(
         "failed-precondition",
@@ -249,12 +253,15 @@ export const uploadEventAttendance = functions.https.onCall(
         "The function must be called while authenticated."
       );
     }
-  }
-);
+  });
 
 // issue event attendance credentials
-export const issueEventAttendances = functions.https.onCall(
-  async (data: any) => {
+export const issueEventAttendances = functions
+  .runWith({
+    timeoutSeconds: 300,
+    memory: "2GB",
+  })
+  .https.onCall(async (data: any) => {
     if (!data.event || !data.dids) {
       throw new functions.https.HttpsError(
         "failed-precondition",
@@ -286,8 +293,7 @@ export const issueEventAttendances = functions.https.onCall(
         "The function must be called while authenticated."
       );
     }
-  }
-);
+  });
 
 // upload MembershipSubject
 export const uploadMembershipSubject = functions.https.onCall(

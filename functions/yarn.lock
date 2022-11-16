@@ -1813,9 +1813,9 @@ catharsis@^0.9.0:
     lodash "^4.17.15"
 
 cborg@^1.6.0:
-  version "1.9.5"
-  resolved "https://registry.yarnpkg.com/cborg/-/cborg-1.9.5.tgz#1e3b8a8407b3665566001f8841c9d72d7a80b2d5"
-  integrity sha512-fLBv8wmqtlXqy1Yu+pHzevAIkW6k2K0ZtMujNzWphLsA34vzzg9BHn+5GmZqOJkSA9V7EMKsWrf6K976c1QMjQ==
+  version "1.9.6"
+  resolved "https://registry.yarnpkg.com/cborg/-/cborg-1.9.6.tgz#bf90de6541d10735db878b60b4af824209b77435"
+  integrity sha512-XmiD+NWTk9xg31d8MdXgW46bSZd95ELllxjbjdWGyHAtpTw+cf8iG3NibWgTWRnfWfxtcihVa5Pm0gchHiO3JQ==
 
 chalk@^4.0.0:
   version "4.1.2"
@@ -3982,13 +3982,6 @@ raw-body@2.5.1:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-device-detect@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-2.2.2.tgz#dbabbce798ec359c83f574c3edb24cf1cca641a5"
-  integrity sha512-zSN1gIAztUekp5qUT/ybHwQ9fmOqVT1psxpSlTn1pe0CO+fnJHKRLOWWac5nKxOxvOpD/w84hk1I+EydrJp7SA==
-  dependencies:
-    ua-parser-js "^1.0.2"
-
 readable-stream@^3.1.1:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.0.tgz#337bbda3adc0706bd3e024426a286d4b4b2c9198"
@@ -4467,11 +4460,6 @@ typescript@^4.8.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.4.tgz#c464abca159669597be5f96b8943500b238e60e6"
   integrity sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==
 
-ua-parser-js@^1.0.2:
-  version "1.0.32"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.32.tgz#786bf17df97de159d5b1c9d5e8e9e89806f8a030"
-  integrity sha512-dXVsz3M4j+5tTiovFVyVqssXBu5HM47//YSOeZ9fQkdDKkfzv2v3PP1jmH6FUyPW+yCSn7aBVK1fGGKNhowdDA==
-
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
@@ -4558,10 +4546,10 @@ vary@^1, vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
-vess-sdk@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/vess-sdk/-/vess-sdk-0.1.8.tgz#0620c24e43895c7ce5a96cd28ee2dbbce9964dcb"
-  integrity sha512-f0ChlgemP0BddjCtmy50VA5CaQqiqEARFHnhYQ3hbR6pNGnsYwg7eQka8W+SF6OGGA3vFw9IJwy4rYeu2+Bbqw==
+vess-sdk@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/vess-sdk/-/vess-sdk-0.2.3.tgz#9a1424a7b461c325707386799e6fce0b9b9070c2"
+  integrity sha512-hXQtKVFNDhfcC3ok2cck+ZxOejQ+elBrlaeQTHGA3578Dkeu7Q5hZoduPtfhaj6bDbhNhuml5+sqsG9PhuxK+Q==
   dependencies:
     "@ceramicnetwork/http-client" "^2.7.0"
     "@ceramicnetwork/stream-tile" "^2.6.0"
@@ -4571,7 +4559,6 @@ vess-sdk@^0.1.8:
     did-session "^1.0.0"
     ethers "^5.7.2"
     firebase "^9.13.0"
-    react-device-detect "^2.2.2"
 
 web-streams-polyfill@^3.0.3:
   version "3.2.1"

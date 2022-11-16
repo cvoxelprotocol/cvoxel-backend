@@ -46,6 +46,9 @@ export const initializeVESS = async () => {
   const signer = wallet.connect(provider);
 
   const vess = getVESSForNode(!isProd());
-  const session = await vess.connect(signer, "testnet-clay");
+  const session = await vess.connect(
+    signer,
+    isProd() ? "mainnet" : "testnet-clay"
+  );
   return { session, provider, signer, vess };
 };
