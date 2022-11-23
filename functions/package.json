@@ -9,7 +9,7 @@
     "deploy_function": "yarn build && firebase deploy --only functions",
     "deploy_all": "yarn build && firebase deploy",
     "logs": "firebase functions:log",
-    "gen:typechain": "yarn typechain --target=ethers-v5 src/utils/abis/erc721enumerate.json"
+    "gen:typechain": "yarn typechain --target=ethers-v5 src/utils/abis/erc721enumerate.json --out-dir src/utils/typechian"
   },
   "engines": {
     "node": "16"
@@ -40,8 +40,8 @@
   "devDependencies": {
     "@typechain/ethers-v5": "^10.1.0",
     "@types/node": "^18.7.18",
-    "@typescript-eslint/eslint-plugin": "^5.38.0",
-    "@typescript-eslint/parser": "^5.38.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
     "eslint": "^8.23.1",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.26.0",
