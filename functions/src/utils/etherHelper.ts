@@ -13,7 +13,9 @@ import {
 } from "../types/eip712.js";
 import {
   WorkCredentialWithDeworkTaskId,
+  WorkCredentialWithERC721Data,
   WorkSubjectFromDework,
+  WorkSubjectFromERC721,
 } from "../types/workCredential.js";
 import {
   DeliverableItem,
@@ -78,6 +80,62 @@ export const signAndCreateWorkCRDLFromDework = async (
     createdAt
   );
   return { taskId, crdl };
+};
+
+export const createWorkCRDLsFromERC721 = async (
+  subjects: WorkSubjectFromERC721[]
+): Promise<WorkCredentialWithERC721Data[]> => {
+  const PRIVATE_KEY = process.env.PROXY_PRIVATE_KEY;
+  const ALCHEMY_API_KEY = process.env.ALCHEMY_KEY;
+  if (!PRIVATE_KEY || !ALCHEMY_API_KEY) {
+    throw new Error("Missing agent private key");
+  }
+  const provider = new providers.AlchemyProvider("homestead", ALCHEMY_API_KEY);
+  const wallet = new ethers.Wallet(PRIVATE_KEY);
+  const signer = wallet.connect(provider);
+  const nowTimestamp = convertDateToTimestampStr(new Date());
+
+  const crdlPromises: Promise<WorkCredentialWithERC721Data>[] = [];
+
+  console.log("wallet: ", signer.address);
+
+  for (const token of subjects) {
+    console.log("erc721 token", token.work?.summary);
+    if (token.tokenHash) {
+      const subject = convertValidworkSubjectTypedData(cast2WorkSubject(token));
+      const crdlPromise = signAndCreateWorkCRDLFromERC721(
+        token.chainId,
+        token.contractAddress,
+        token.tokenId,
+        token.tokenHash,
+        subject,
+        provider,
+        signer,
+        nowTimestamp
+      );
+      crdlPromises.push(crdlPromise);
+    }
+  }
+  return await Promise.all(crdlPromises);
+};
+
+export const signAndCreateWorkCRDLFromERC721 = async (
+  chainId: number,
+  contractAddress: string,
+  tokenId: string,
+  tokenHash: string,
+  subject: WorkSubject,
+  provider: ethers.providers.AlchemyProvider,
+  signer: ethers.Wallet,
+  createdAt: string
+): Promise<WorkCredentialWithERC721Data> => {
+  const crdl: WorkCredential = await signAndCreateWorkCRDL(
+    subject,
+    provider,
+    signer,
+    createdAt
+  );
+  return { chainId, contractAddress, tokenId, tokenHash, crdl };
 };
 
 export const createWorkCRDLs = async (

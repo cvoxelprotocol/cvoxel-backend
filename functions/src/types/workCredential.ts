@@ -4,6 +4,7 @@ import {
   WorkCredential,
   WorkSubject,
 } from "../__generated__/types/WorkCredential.js";
+import { BigNumber } from "ethers";
 
 export type WorkCredentialWithId = WorkCredential & {
   backupId?: string;
@@ -14,6 +15,22 @@ export type WorkCredentialWithId = WorkCredential & {
 export type WorkSubjectFromDework = WorkSubject & {
   streamId?: string | null;
   taskId?: string | null;
+};
+
+export type ERC721Data = {
+  tokenURI: string;
+  chainId: number;
+  contractAddress: string;
+  tokenId: BigNumber;
+  tokenHash: string;
+};
+
+export type WorkSubjectFromERC721 = WorkSubject & {
+  streamId?: string | null;
+  chainId: number;
+  contractAddress: string;
+  tokenId: string;
+  tokenHash: string;
 };
 
 export type WorkCredentialForm = Work &
@@ -36,4 +53,12 @@ export type AliasTypes = typeof AliasType[keyof typeof AliasType];
 export type WorkCredentialWithDeworkTaskId = {
   taskId: string;
   crdl: WorkCredential;
+};
+
+export type WorkCredentialWithERC721Data = {
+  crdl: WorkCredential;
+  chainId: number;
+  contractAddress: string;
+  tokenId: string;
+  tokenHash: string;
 };
