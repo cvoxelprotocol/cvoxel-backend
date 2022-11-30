@@ -12,8 +12,14 @@ import { ERC721Data, WorkSubjectFromERC721 } from "../types/workCredential.js";
 import { toUtf8Bytes } from "ethers/lib/utils.js";
 
 const ETHEREUM_MAINNET_CHAIN_ID = 1;
+const POLYGON_MAINNET_CHAIN_ID = 137;
+
+const ETHEREUM_MAINNET_DEV_PROTOCOL_ADDRESS =
+  "0x50489Ff5f879A44C87bBA85287729D663b18CeD5";
+const POLYGON_MAINNET_DEV_PROTOCOL_ADDRESS =
+  "0x89904De861CDEd2567695271A511B3556659FfA2";
+
 const DEVPROTOCOL_URL = "https://api.devprotocol.xyz/v1/graphql";
-const DEV_PROTOCOL_ADDRESS = "0x50489Ff5f879A44C87bBA85287729D663b18CeD5";
 
 const PROPERTY_AUTHENTICATION_OPERATION_NAME = "getPropertyAuthentication";
 const PROPERTY_AUTHENTICATION_QUERY = `
@@ -49,21 +55,33 @@ export type DevProtocolSchema = RawDevProtocolSchema & ERC721Data;
 
 export type HandleERC721Contract = "DevProtocol";
 
-const getAddress = (contract: HandleERC721Contract): string => {
+const getAddress = (
+  contract: HandleERC721Contract,
+  chainId: number
+): string => {
   switch (contract) {
     case "DevProtocol":
-      return DEV_PROTOCOL_ADDRESS;
+      switch (chainId) {
+        case ETHEREUM_MAINNET_CHAIN_ID:
+          return ETHEREUM_MAINNET_DEV_PROTOCOL_ADDRESS;
+        case POLYGON_MAINNET_CHAIN_ID:
+          return POLYGON_MAINNET_DEV_PROTOCOL_ADDRESS;
+      }
   }
+  throw new Error("Invalid chainid");
 };
 
-const getContract = (contract: HandleERC721Contract): Erc721enumerate => {
-  const address = getAddress(contract);
+const getContract = (
+  contract: HandleERC721Contract,
+  chainId: number
+): Erc721enumerate => {
+  const address = getAddress(contract, chainId);
 
   const ALCHEMY_API_KEY = process.env.ALCHEMY_KEY;
   if (!ALCHEMY_API_KEY) {
     throw new Error("Missing agent private key");
   }
-  const provider = new providers.AlchemyProvider("homestead", ALCHEMY_API_KEY);
+  const provider = new providers.AlchemyProvider(chainId, ALCHEMY_API_KEY);
 
   return Erc721enumerate__factory.connect(address, provider);
 };
@@ -92,9 +110,10 @@ export const tokenURI = async (
 
 export const getTokensMetadata = async <T>(
   handleContract: HandleERC721Contract,
+  chainId: number,
   owner: string
 ): Promise<T[]> => {
-  const contract = getContract(handleContract);
+  const contract = getContract(handleContract, chainId);
 
   const balance = await balanceOf(contract, owner);
 
@@ -110,8 +129,8 @@ export const getTokensMetadata = async <T>(
       ...decoded,
       tokenURI: metadataURI,
       tokenId: tokenId,
-      chainId: ETHEREUM_MAINNET_CHAIN_ID,
-      contractAddress: getAddress(handleContract),
+      chainId: chainId,
+      contractAddress: getAddress(handleContract, chainId),
     } as T);
   }
 
@@ -119,6 +138,7 @@ export const getTokensMetadata = async <T>(
 };
 
 export const convertDevProtocolToken2WorkSubject = async (
+  chainId: number,
   address: string,
   token: DevProtocolSchema
 ) => {
@@ -135,7 +155,7 @@ export const convertDevProtocolToken2WorkSubject = async (
   });
 
   let projectName = "";
-  if (destination != "") {
+  if (destination != "" && chainId == ETHEREUM_MAINNET_CHAIN_ID) {
     const res = await graphFetch(
       DEVPROTOCOL_URL,
       PROPERTY_AUTHENTICATION_OPERATION_NAME,
@@ -155,6 +175,7 @@ export const convertDevProtocolToken2WorkSubject = async (
     isPayer: true,
     relatedTxHashes: [],
     fiatSymbol: "DEV",
+    networkId: chainId,
   };
 
   const work: Work = {
@@ -164,7 +185,7 @@ export const convertDevProtocolToken2WorkSubject = async (
     summary:
       projectName != ""
         ? `Support ${projectName} on Stake.social`
-        : "Support on Stake.social",
+        : `Support ${destination} on Stake.social`,
     detail: token.description,
     genre: "Donation&Investment",
     jobType: "OneTime",
@@ -175,6 +196,10 @@ export const convertDevProtocolToken2WorkSubject = async (
   const subject: WorkSubjectFromERC721 = {
     work: work,
     tx: tx,
+    client: {
+      format: "DID",
+      value: `did:pkh:eip155:${chainId}:${destination.toLowerCase()}`,
+    },
     deliverables: [{ format: "url", value: token.tokenURI }],
     tokenURI: token.tokenURI,
     chainId: token.chainId,

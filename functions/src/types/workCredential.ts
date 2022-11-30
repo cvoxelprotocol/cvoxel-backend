@@ -27,10 +27,10 @@ export type ERC721Data = {
 
 export type WorkSubjectFromERC721 = WorkSubject & {
   streamId?: string | null;
-  chainId: number;
-  contractAddress: string;
-  tokenId: string;
-  tokenHash: string;
+  chainId?: number | null;
+  contractAddress?: string | null;
+  tokenId?: string | null;
+  tokenHash?: string | null;
 };
 
 export type WorkCredentialForm = Work &

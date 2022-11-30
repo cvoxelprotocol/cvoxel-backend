@@ -28,7 +28,10 @@ import {
   castUndifined2DefaultValue,
   convertDateToTimestampStr,
 } from "./commonUtil.js";
-import { cast2WorkSubject } from "./typeUtils.js";
+import {
+  cast2WorkSubjectFromDework,
+  cast2WorkSubjectFromERC721,
+} from "./typeUtils.js";
 
 export const createWorkCRDLsFromDework = async (
   subjects: WorkSubjectFromDework[]
@@ -51,7 +54,7 @@ export const createWorkCRDLsFromDework = async (
     console.log("deworkTask", deworkTask.work?.summary);
     if (deworkTask.taskId) {
       const subject = convertValidworkSubjectTypedData(
-        cast2WorkSubject(deworkTask)
+        cast2WorkSubjectFromDework(deworkTask)
       );
       const crdlPromise = signAndCreateWorkCRDLFromDework(
         deworkTask.taskId,
@@ -101,8 +104,16 @@ export const createWorkCRDLsFromERC721 = async (
 
   for (const token of subjects) {
     console.log("erc721 token", token.work?.summary);
-    if (token.tokenHash) {
-      const subject = convertValidworkSubjectTypedData(cast2WorkSubject(token));
+    if (
+      token.chainId &&
+      token.contractAddress &&
+      token.tokenId &&
+      token.tokenHash
+    ) {
+      const subject = convertValidworkSubjectTypedData(
+        cast2WorkSubjectFromERC721(token)
+      );
+
       const crdlPromise = signAndCreateWorkCRDLFromERC721(
         token.chainId,
         token.contractAddress,
@@ -174,6 +185,7 @@ export const signAndCreateWorkCRDL = async (
   if (!subject.work) {
     throw new Error("Missing work subject");
   }
+
   const agentSig = await getEIP712WorkCredentialSubjectSignature(
     subject,
     provider,
@@ -187,7 +199,6 @@ export const signAndCreateWorkCRDL = async (
     agentSig: agentSig,
     agentSigner: getPkhDIDFromAddress(signer.address),
   };
-
   const crdl: WorkCredential = {
     id: subject.work.id,
     subject,

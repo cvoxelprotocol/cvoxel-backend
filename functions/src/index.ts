@@ -645,9 +645,14 @@ export const getDevProtocolTokens = functions
   })
   .https.onCall(async (data: any) => {
     try {
-      const { address } = data;
+      const { address, chainId } = data;
 
       if (!address) {
+        errorResponse("failed-precondition", "you must include address");
+        return { status: "ng", message: "you must include address" };
+      }
+
+      if (!chainId) {
         errorResponse("failed-precondition", "you must include address");
         return { status: "ng", message: "you must include address" };
       }
@@ -655,6 +660,7 @@ export const getDevProtocolTokens = functions
       try {
         const metadataList = await getTokensMetadata<DevProtocolSchema>(
           "DevProtocol",
+          chainId,
           address
         );
 
@@ -671,7 +677,11 @@ export const getDevProtocolTokens = functions
 
         const subjects = await Promise.all(
           metadataList.map(async (metadata) => {
-            return await convertDevProtocolToken2WorkSubject(address, metadata);
+            return await convertDevProtocolToken2WorkSubject(
+              chainId,
+              address,
+              metadata
+            );
           })
         );
 
@@ -685,9 +695,11 @@ export const getDevProtocolTokens = functions
               )
           )
           .forEach((subject) => {
-            batch.set(devProtocolTokensRef.doc(subject.tokenHash), subject, {
-              merge: true,
-            });
+            if (subject.tokenHash) {
+              batch.set(devProtocolTokensRef.doc(subject.tokenHash), subject, {
+                merge: true,
+              });
+            }
           });
 
         await batch.commit();
@@ -741,7 +753,7 @@ export const issueCRDLFromDevProtocol = functions.https.onCall(
       console.log({ updatedTokens });
 
       for (const token of updatedTokens) {
-        if (token.taskId && token.streamId) {
+        if (token.tokenId && token.streamId && token.tokenHash) {
           batch.set(devProtocolTokensRef.doc(token.tokenHash), token, {
             merge: true,
           });
