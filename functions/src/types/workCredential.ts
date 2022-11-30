@@ -4,6 +4,7 @@ import {
   WorkCredential,
   WorkSubject,
 } from "vess-sdk";
+import {BigNumber} from "ethers";
 
 export type WorkSubjectFromDework = WorkSubject & {
   streamId?: string | null;

@@ -3,8 +3,7 @@ import {
   Erc721enumerate,
   Erc721enumerate__factory,
 } from "./typechian/index.js";
-import { Transaction, Work } from "../__generated__/types/WorkCredential.js";
-import { getPkhDIDFromAddress } from "./ceramicHelper.js";
+import { Transaction, Work, getPkhDIDFromAddress } from "vess-sdk";
 import { convertDateToTimestampStr } from "./commonUtil.js";
 import fetch from "node-fetch";
 import { sendAlert } from "../index.js";

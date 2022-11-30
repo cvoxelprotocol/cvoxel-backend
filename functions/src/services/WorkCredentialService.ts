@@ -1,15 +1,16 @@
 import {
-  WorkCredentialWithDeworkTaskId, WorkCredentialWithERC721Data,
-  WorkSubjectFromDework, WorkSubjectFromERC721,
+  WorkCredentialWithDeworkTaskId,
+  WorkCredentialWithERC721Data,
+  WorkSubjectFromDework,
+  WorkSubjectFromERC721,
 } from "../types/workCredential.js";
 import { initializeVESS } from "../utils/ceramicHelper.js";
 import { EventAttendanceWithId, EventWithId, VessForNode } from "vess-sdk";
 import {
   createEventAttendanceCredentials,
   createWorkCRDLsFromDework,
-  createWorkCRDLsFromERC721
+  createWorkCRDLsFromERC721,
 } from "../utils/etherHelper.js";
-import { issueWorkCRDL } from "../utils/ceramicHelper.js";
 
 export const issueWorkCRDLsFromDework = async (
   targetTasks: WorkSubjectFromDework[]
@@ -58,32 +59,32 @@ export const issueEventAttendanceCredential = async (
 export const issueWorkCRDLsFromERC721 = async (
   targetTokens: WorkSubjectFromERC721[]
 ): Promise<WorkSubjectFromERC721[]> => {
+  const { vess } = await initializeVESS();
   // sign and create crdls
   const crdlsWithData = await createWorkCRDLsFromERC721(targetTokens);
 
   const promises: Promise<WorkSubjectFromERC721>[] = [];
   for (const crdls of crdlsWithData) {
     // store into Ceramic
-    const p = issueWorkCRDLFromERC721(crdls);
+    const p = issueWorkCRDLFromERC721(vess, crdls);
     promises.push(p);
   }
   return await Promise.all(promises);
 };
 
 export const issueWorkCRDLFromERC721 = async (
+  vess: VessForNode,
   crdlsWithData: WorkCredentialWithERC721Data
 ): Promise<WorkSubjectFromERC721> => {
-  console.log("crdl", crdlsWithData.crdl);
-  const id = await issueWorkCRDL(crdlsWithData.crdl);
+  const doc = await vess.createWorkCredential(crdlsWithData.crdl);
 
-  console.log("streamId: ", id);
   const updatedToken: WorkSubjectFromERC721 = {
     ...crdlsWithData.crdl.subject,
-    streamId: id,
-    chainId:crdlsWithData.chainId,
-    contractAddress:crdlsWithData.contractAddress,
-    tokenId:crdlsWithData.tokenId.toString(),
-    tokenHash:crdlsWithData.tokenHash
+    streamId: doc.id.toUrl(),
+    chainId: crdlsWithData.chainId,
+    contractAddress: crdlsWithData.contractAddress,
+    tokenId: crdlsWithData.tokenId.toString(),
+    tokenHash: crdlsWithData.tokenHash,
   };
   return updatedToken;
 };
