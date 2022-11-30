@@ -3,14 +3,7 @@ import {
   Work,
   WorkCredential,
   WorkSubject,
-} from "../__generated__/types/WorkCredential.js";
-import { BigNumber } from "ethers";
-
-export type WorkCredentialWithId = WorkCredential & {
-  backupId?: string;
-  holderDid?: string;
-  potentialSigners?: string[];
-};
+} from "vess-sdk";
 
 export type WorkSubjectFromDework = WorkSubject & {
   streamId?: string | null;

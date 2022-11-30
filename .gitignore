@@ -71,3 +71,7 @@ node_modules/
 **/.runtimeconfig.dev.json
 
 lib/
+
+backup/
+
+.DS_Store

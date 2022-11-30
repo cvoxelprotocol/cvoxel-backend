@@ -2,37 +2,57 @@ import {
   WorkCredentialWithDeworkTaskId, WorkCredentialWithERC721Data,
   WorkSubjectFromDework, WorkSubjectFromERC721,
 } from "../types/workCredential.js";
+import { initializeVESS } from "../utils/ceramicHelper.js";
+import { EventAttendanceWithId, EventWithId, VessForNode } from "vess-sdk";
+import {
+  createEventAttendanceCredentials,
+  createWorkCRDLsFromDework,
+  createWorkCRDLsFromERC721
+} from "../utils/etherHelper.js";
 import { issueWorkCRDL } from "../utils/ceramicHelper.js";
-import {createWorkCRDLsFromDework, createWorkCRDLsFromERC721} from "../utils/etherHelper.js";
 
 export const issueWorkCRDLsFromDework = async (
   targetTasks: WorkSubjectFromDework[]
 ): Promise<WorkSubjectFromDework[]> => {
-  // sign and create crdls
+  const { vess } = await initializeVESS();
   const crdlsWithTaskIds = await createWorkCRDLsFromDework(targetTasks);
 
   const promises: Promise<WorkSubjectFromDework>[] = [];
   for (const crdlsWithTaskId of crdlsWithTaskIds) {
     // store into Ceramic
-    const p = issueWorkCRDLFromDework(crdlsWithTaskId);
+    const p = issueWorkCRDLFromDework(vess, crdlsWithTaskId);
     promises.push(p);
   }
   return await Promise.all(promises);
 };
 
 export const issueWorkCRDLFromDework = async (
+  vess: VessForNode,
   crdlsWithTaskId: WorkCredentialWithDeworkTaskId
 ): Promise<WorkSubjectFromDework> => {
-  console.log("crdl", crdlsWithTaskId.crdl);
-  const id = await issueWorkCRDL(crdlsWithTaskId.crdl);
+  const doc = await vess.createWorkCredential(crdlsWithTaskId.crdl);
 
-  console.log("streamId: ", id);
   const updatedTask: WorkSubjectFromDework = {
     ...crdlsWithTaskId.crdl.subject,
-    streamId: id,
+    streamId: doc.id.toUrl(),
     taskId: crdlsWithTaskId.taskId,
   };
   return updatedTask;
+};
+
+export const issueEventAttendanceCredential = async (
+  content: EventWithId,
+  dids: string[]
+): Promise<EventAttendanceWithId[]> => {
+  try {
+    const { vess } = await initializeVESS();
+    const vcs = await createEventAttendanceCredentials(content, dids);
+    const { docs } = await vess.issueEventAttendanceCredentials(vcs);
+    return docs;
+  } catch (error) {
+    console.log(JSON.stringify(error));
+    throw new Error("Failed to create event crdl on ceramic");
+  }
 };
 
 export const issueWorkCRDLsFromERC721 = async (

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import * as functions from "firebase-functions";
-// import * as admin from "firebase-admin";
 // import { recoverPersonalSignature } from "@metamask/eth-sig-util";
 // import sgMail from "@sendgrid/mail";
 import { cert, initializeApp } from "firebase-admin/app";
@@ -12,21 +10,28 @@ import { recoverPersonalSignature } from "@metamask/eth-sig-util";
 import { FunctionsErrorCode } from "firebase-functions/v1/https";
 import { CVoxelMetaDraft } from "./types/cVoxel.js";
 import { UserConnection } from "./types/user.js";
-import { Task } from "./types.js";
+import { Task } from "./types/dework.js";
 import sgMail from "@sendgrid/mail";
 import {
   convertTimestampToDateStr,
   formatBigNumber,
+  isProd,
 } from "./utils/commonUtil.js";
 import { DeworkOrg } from "./types/Orgs.js";
+import { WorkSubjectFromDework,WorkSubjectFromERC721 } from "./types/workCredential.js";
 import {
+  EventAttendanceWithId,
+  EventWithId,
+  MembershipSubjectWithId,
+  MembershipWithId,
+  OrganizationWIthId,
+  VerifiableWorkCredentialWithId,
   WorkCredentialWithId,
-  WorkSubjectFromDework,
-  WorkSubjectFromERC721,
-} from "./types/workCredential.js";
-import { Signatures } from "./__generated__/types/workCredential.js";
-import { createOrganization } from "./utils/ceramicHelper.js";
+  Signatures,
+} from "vess-sdk";
+import { createOrganization, initializeVESS } from "./utils/ceramicHelper.js";
 import {
+  issueEventAttendanceCredential,
   issueWorkCRDLsFromDework,
   issueWorkCRDLsFromERC721,
 } from "./services/WorkCredentialService.js";
@@ -40,28 +45,37 @@ import {
   EtherscanResult,
   TransactionLogWithChainId,
 } from "./types/TransactionLog.js";
-// import { BigNumber } from "bignumber.js";
+import { performance, PerformanceObserver } from "perf_hooks";
+import pkg from "bignumber.js";
+const { BigNumber } = pkg;
+
+import { removeCeramicPrefix } from "vess-sdk";
+// @ts-ignore
+const require = createRequire(import.meta.url);
+
 import {
   convertDevProtocolToken2WorkSubject,
   DevProtocolSchema,
   getTokensMetadata,
 } from "./utils/erc721Helper.js";
-import pkg from "bignumber.js";
 
-const { BigNumber } = pkg;
-// @ts-ignore
-const require = createRequire(import.meta.url);
-// import * as ProdKey from "./service-account-key-prod.json" assert { type: "json" };
-// import * as DevKey from "./service-account-key-prod.json" assert { type: "json" };
+// =====================Debug=====================
+const obs = new PerformanceObserver((items) => {
+  for (const item of items.getEntries()) {
+    console.log(`${item.name}'s duration: `, item.duration);
+  }
+});
+obs.observe({ type: "measure" });
+performance.measure("Start to Now");
+// =====================Debug=====================
 
 let FB_CREDENTIAL;
 let FB_DATABASE_URL;
 
-const APP_ENV = functions.config().app.environment;
 const ETHERSCAN_API_KEY = functions.config().apikey.etherscan;
 const POLYGON_API_KEY = functions.config().apikey.polygon;
 
-if (process.env.NODE_ENV === "production" && APP_ENV === "production") {
+if (isProd()) {
   FB_CREDENTIAL = require("./service-account-key-prod.json");
   FB_DATABASE_URL = "https://cvoxel-testnet.firebaseio.com";
 } else {
@@ -120,6 +134,204 @@ export const uploadCRDL = functions.https.onCall(async (data: any) => {
     );
   }
 });
+
+export const uploadVerifiableWorkCredential = functions.https.onCall(
+  async (data: any) => {
+    if (!data.crdl) {
+      throw new functions.https.HttpsError(
+        "failed-precondition",
+        "you must include crdl"
+      );
+    }
+
+    try {
+      const crdl = data.crdl as VerifiableWorkCredentialWithId;
+      const cRDLDocRef = db
+        .collection("verifiableworks")
+        .doc(`${crdl.ceramicId}`);
+      await cRDLDocRef.set(crdl, { merge: true });
+      return { status: "ok" };
+    } catch (err) {
+      console.log("error", err);
+      throw new functions.https.HttpsError(
+        "unknown",
+        "The function must be called while authenticated."
+      );
+    }
+  }
+);
+
+// upload Org
+export const uploadOrg = functions.https.onCall(async (data: any) => {
+  if (!data.org) {
+    throw new functions.https.HttpsError(
+      "failed-precondition",
+      "you must include crdl"
+    );
+  }
+
+  try {
+    const org = data.org as OrganizationWIthId;
+    const cRDLDocRef = db
+      .collection("organization")
+      .doc(`${removeCeramicPrefix(org.ceramicId)}`);
+    await cRDLDocRef.set(org, { merge: true });
+    return { status: "ok" };
+  } catch (err) {
+    console.log("error", err);
+    throw new functions.https.HttpsError(
+      "unknown",
+      "The function must be called while authenticated."
+    );
+  }
+});
+
+// upload Membership
+export const uploadMembership = functions.https.onCall(async (data: any) => {
+  if (!data.membership) {
+    throw new functions.https.HttpsError(
+      "failed-precondition",
+      "you must include crdl"
+    );
+  }
+
+  try {
+    const membership = data.membership as MembershipWithId;
+    const cRDLDocRef = db
+      .collection("memberships")
+      .doc(`${removeCeramicPrefix(membership.ceramicId)}`);
+    await cRDLDocRef.set(membership, { merge: true });
+    return { status: "ok" };
+  } catch (err) {
+    console.log("error", err);
+    throw new functions.https.HttpsError(
+      "unknown",
+      "The function must be called while authenticated."
+    );
+  }
+});
+
+// upload event
+export const uploadEvent = functions.https.onCall(async (data: any) => {
+  if (!data.event) {
+    throw new functions.https.HttpsError(
+      "failed-precondition",
+      "you must include crdl"
+    );
+  }
+
+  try {
+    const event = data.event as EventWithId;
+    const cRDLDocRef = db
+      .collection("events")
+      .doc(`${removeCeramicPrefix(event.ceramicId)}`);
+    await cRDLDocRef.set(event, { merge: true });
+    return { status: "ok" };
+  } catch (err) {
+    console.log("error", err);
+    throw new functions.https.HttpsError(
+      "unknown",
+      "The function must be called while authenticated."
+    );
+  }
+});
+
+// upload event attendance
+export const uploadEventAttendance = functions
+  .runWith({
+    timeoutSeconds: 300,
+    memory: "2GB",
+  })
+  .https.onCall(async (data: any) => {
+    if (!data.event) {
+      throw new functions.https.HttpsError(
+        "failed-precondition",
+        "you must include crdl"
+      );
+    }
+
+    try {
+      const event = data.event as EventAttendanceWithId;
+      const cRDLDocRef = db
+        .collection("eventattendances")
+        .doc(`${removeCeramicPrefix(event.ceramicId)}`);
+      await cRDLDocRef.set(event, { merge: true });
+      return { status: "ok" };
+    } catch (err) {
+      console.log("error", err);
+      throw new functions.https.HttpsError(
+        "unknown",
+        "The function must be called while authenticated."
+      );
+    }
+  });
+
+// issue event attendance credentials
+export const issueEventAttendances = functions
+  .runWith({
+    timeoutSeconds: 300,
+    memory: "2GB",
+  })
+  .https.onCall(async (data: any) => {
+    if (!data.event || !data.dids) {
+      throw new functions.https.HttpsError(
+        "failed-precondition",
+        "you must include event and dids"
+      );
+    }
+    try {
+      const event = data.event as EventWithId;
+      const dids = data.dids as string[];
+
+      const docs = await issueEventAttendanceCredential(event, dids);
+
+      const cRDLDocRef = db.collection("eventattendances");
+      const batch = db.batch();
+      for (const doc of docs) {
+        batch.set(
+          cRDLDocRef.doc(`${removeCeramicPrefix(doc.ceramicId)}`),
+          doc,
+          { merge: true }
+        );
+      }
+      await batch.commit();
+      const vcIds = docs.map((doc) => doc.ceramicId).join(",");
+      return { status: "ok", vcs: vcIds };
+    } catch (err) {
+      console.log("error", err);
+      throw new functions.https.HttpsError(
+        "unknown",
+        "The function must be called while authenticated."
+      );
+    }
+  });
+
+// upload MembershipSubject
+export const uploadMembershipSubject = functions.https.onCall(
+  async (data: any) => {
+    if (!data.subject) {
+      throw new functions.https.HttpsError(
+        "failed-precondition",
+        "you must include crdl"
+      );
+    }
+
+    try {
+      const subject = data.subject as MembershipSubjectWithId;
+      const cRDLDocRef = db
+        .collection("membershipsubjects")
+        .doc(`${removeCeramicPrefix(subject.ceramicId)}`);
+      await cRDLDocRef.set(subject, { merge: true });
+      return { status: "ok" };
+    } catch (err) {
+      console.log("error", err);
+      throw new functions.https.HttpsError(
+        "unknown",
+        "The function must be called while authenticated."
+      );
+    }
+  }
+);
 
 export const uploadDraft = functions.https.onCall(async (data: any) => {
   if (!data.draft) {
@@ -375,8 +587,11 @@ export const getDeworkUserTasks = functions
             .collection("deworkTasks")
             .doc(address)
             .collection("tasks");
+          const organizationRef = db.collection("organization");
           const batch = db.batch();
           const orgsArr: DeworkOrg[] = [];
+
+          const { vess } = await initializeVESS();
 
           for (const task of tasks) {
             // get client info
@@ -396,7 +611,8 @@ export const getDeworkUserTasks = functions
                 const orgName = task.workspace.organization.name;
                 const orgIcon = task.workspace.organization.imageUrl;
                 const orgDesc = task.workspace.organization.description;
-                const orgId = await createOrganization(
+                const orgWithId = await createOrganization(
+                  vess,
                   orgName,
                   "0x0",
                   orgDesc,
@@ -404,13 +620,17 @@ export const getDeworkUserTasks = functions
                 );
                 org = {
                   deworkOrgId,
-                  orgId,
+                  orgId: orgWithId.ceramicId,
                   name: orgName || null,
                   icon: orgIcon || null,
                   description: orgDesc || null,
                 };
                 orgsArr.push(org);
-                await deworkOrgRef.set(org, { merge: true });
+                const createDeworkOrg = deworkOrgRef.set(org, { merge: true });
+                const createOrg = await organizationRef
+                  .doc(removeCeramicPrefix(orgWithId.ceramicId))
+                  .set(orgWithId, { merge: true });
+                await Promise.all([createDeworkOrg, createOrg]);
               }
             }
             if (org) {
@@ -484,6 +704,8 @@ export const reFetchDeworkUserTasks = functions
           const batch = db.batch();
           const orgsArr: DeworkOrg[] = [];
 
+          const { vess } = await initializeVESS();
+
           for (const task of newTasks) {
             // exclude claimed task
             if (claimedTaskIds.includes(task.id)) continue;
@@ -504,7 +726,8 @@ export const reFetchDeworkUserTasks = functions
                 const orgName = task.workspace.organization.name;
                 const orgIcon = task.workspace.organization.imageUrl;
                 const orgDesc = task.workspace.organization.description;
-                const orgId = await createOrganization(
+                const orgWithId: OrganizationWIthId = await createOrganization(
+                  vess,
                   orgName,
                   "0x0",
                   orgDesc,
@@ -512,7 +735,7 @@ export const reFetchDeworkUserTasks = functions
                 );
                 org = {
                   deworkOrgId,
-                  orgId,
+                  orgId: orgWithId.ceramicId,
                   name: orgName || null,
                   icon: orgIcon || null,
                   description: orgDesc || null,
@@ -610,8 +833,6 @@ export const issueCRDLFromDework = functions.https.onCall(async (data: any) => {
     const targetTasks = storeAll
       ? deworkTasksData
       : deworkTasksData.filter((t) => targetDeworkIds.includes(t.taskId || ""));
-
-    console.log({ targetTasks });
 
     // update and issue crdl into ceramic
     const updatedTasks = await issueWorkCRDLsFromDework(targetTasks);

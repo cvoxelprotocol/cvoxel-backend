@@ -1,4 +1,4 @@
-import { DeliverableItem } from "../__generated__/types/WorkCredential.js";
+import { DeliverableItem } from "vess-sdk";
 
 export type CVoxel = {
   to: string; // payee address. maybe contract address
@@ -32,41 +32,9 @@ export type CVoxel = {
   updatedAt?: string; // timestamp to be updated
 };
 
-export type WorkCredentialForm = CVoxel & {
-  deliverableLink?: string;
-  deliverableCID?: string;
-};
-
-export type CVoxelWithId = CVoxel & {
-  id: string;
-};
-
 export type CVoxelMetaDraft = CVoxel & {
   potencialPayer?: string[]; // in case of multisig wallet
   potencialPayee?: string[]; // in case of multisig wallet
   completed?: boolean; // whether or not work is completed (only in case of LanC., it might be false)
   id?: string;
-};
-
-export type CVoxelDraftAndMeta = {
-  meta: CVoxel;
-  draft: CVoxelMetaDraft;
-};
-
-export type CVoxelItem = {
-  id: string;
-  txHash?: string; // transfer tx hash
-  isPayer: boolean;
-  summary: string;
-  deliverables?: DeliverableItem[]; // deliberable link
-  fiatValue?: string;
-  genre?: string; // main genre
-  deliverableHash?: string; // hash value of all work descriptions(summary, detail, deliverables)
-  platform?: string; // a transaction platform if exists e.g, gitcoin
-  isVerified?: boolean;
-  issuedTimestamp: string;
-};
-
-export type CVoxels = {
-  WorkCredentials: CVoxelItem[];
 };

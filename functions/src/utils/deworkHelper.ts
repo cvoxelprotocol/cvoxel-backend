@@ -1,17 +1,16 @@
 import { BigNumber } from "ethers";
 import fetch from "node-fetch";
 import { sendAlert } from "../index.js";
-import { Skill, Task } from "../types.js";
+import { Skill, Task } from "../types/dework.js";
 import { DeworkUser, ThreePid } from "../types/user.js";
 import { WorkSubjectFromDework } from "../types/workCredential.js";
 import {
   Client,
   DeliverableItem,
-  Deliverables,
   Transaction,
   Work,
-} from "../__generated__/types/workCredential.js";
-import { getPkhDIDFromAddress } from "./ceramicHelper.js";
+  getPkhDIDFromAddress,
+} from "vess-sdk";
 import { convertDateToTimestampStr } from "./commonUtil.js";
 
 const DEWORK_URL = "https://api.deworkxyz.com/graphql";
@@ -335,7 +334,7 @@ export const covnertTask2WorkSubject = (
   orgId: string
 ): WorkSubjectFromDework => {
   // Deliverable
-  const deliverables: Deliverables = [];
+  const deliverables: DeliverableItem[] = [];
   if (task.assignees && task.assignees.length > 0) {
     const profilePageUrl =
       task.assignees[0].permalink ||
