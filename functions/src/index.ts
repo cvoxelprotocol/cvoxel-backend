@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions";
 // import { recoverPersonalSignature } from "@metamask/eth-sig-util";
 // import sgMail from "@sendgrid/mail";
-import { initializeApp, cert } from "firebase-admin/app";
+import { cert, initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import fetch from "node-fetch";
 import { toUtf8Bytes } from "@ethersproject/strings";
@@ -18,7 +18,7 @@ import {
   isProd,
 } from "./utils/commonUtil.js";
 import { DeworkOrg } from "./types/Orgs.js";
-import { WorkSubjectFromDework } from "./types/workCredential.js";
+import { WorkSubjectFromDework,WorkSubjectFromERC721 } from "./types/workCredential.js";
 import {
   EventAttendanceWithId,
   EventWithId,
@@ -33,6 +33,7 @@ import { createOrganization, initializeVESS } from "./utils/ceramicHelper.js";
 import {
   issueEventAttendanceCredential,
   issueWorkCRDLsFromDework,
+  issueWorkCRDLsFromERC721,
 } from "./services/WorkCredentialService.js";
 import {
   covnertTask2WorkSubject,
@@ -46,9 +47,17 @@ import {
 } from "./types/TransactionLog.js";
 import { performance, PerformanceObserver } from "perf_hooks";
 import pkg from "bignumber.js";
-import { removeCeramicPrefix } from "vess-sdk";
 const { BigNumber } = pkg;
+
+import { removeCeramicPrefix } from "vess-sdk";
+// @ts-ignore
 const require = createRequire(import.meta.url);
+
+import {
+  convertDevProtocolToken2WorkSubject,
+  DevProtocolSchema,
+  getTokensMetadata,
+} from "./utils/erc721Helper.js";
 
 // =====================Debug=====================
 const obs = new PerformanceObserver((items) => {
@@ -73,6 +82,8 @@ if (isProd()) {
   FB_CREDENTIAL = require("./service-account-key-staging.json");
   FB_DATABASE_URL = "https://cvoxel-dev.firebaseio.com";
 }
+
+FB_DATABASE_URL = "http://localhost:8081";
 
 initializeApp({
   credential: cert(FB_CREDENTIAL),
@@ -847,6 +858,141 @@ export const issueCRDLFromDework = functions.https.onCall(async (data: any) => {
     );
   }
 });
+
+export const getDevProtocolTokens = functions
+  .runWith({
+    timeoutSeconds: 300,
+    memory: "1GB",
+  })
+  .https.onCall(async (data: any) => {
+    try {
+      const { address, chainId } = data;
+
+      if (!address) {
+        errorResponse("failed-precondition", "you must include address");
+        return { status: "ng", message: "you must include address" };
+      }
+
+      if (!chainId) {
+        errorResponse("failed-precondition", "you must include address");
+        return { status: "ng", message: "you must include address" };
+      }
+
+      try {
+        const metadataList = await getTokensMetadata<DevProtocolSchema>(
+          "DevProtocol",
+          chainId,
+          address
+        );
+
+        const devProtocolTokensRef = db
+          .collection("devProtocolTokens")
+          .doc(address.toLowerCase())
+          .collection("tokens");
+
+        const devProtocolTokensDocs = await devProtocolTokensRef.get();
+        const devProtocolTokensData: WorkSubjectFromERC721[] =
+          devProtocolTokensDocs.docs.map((t) => {
+            return t.data() as WorkSubjectFromERC721;
+          });
+
+        const subjects = await Promise.all(
+          metadataList.map(async (metadata) => {
+            return await convertDevProtocolToken2WorkSubject(
+              chainId,
+              address,
+              metadata
+            );
+          })
+        );
+
+        const batch = db.batch();
+
+        subjects
+          .filter(
+            (subject) =>
+              !devProtocolTokensData.find(
+                (d) => subject.tokenHash == d.tokenHash
+              )
+          )
+          .forEach((subject) => {
+            if (subject.tokenHash) {
+              batch.set(devProtocolTokensRef.doc(subject.tokenHash), subject, {
+                merge: true,
+              });
+            }
+          });
+
+        await batch.commit();
+
+        return { status: "ok", subjects: subjects };
+      } catch (error) {
+        console.log(error);
+        return { status: "ng" };
+      }
+    } catch (err) {
+      console.log(err);
+      throw new functions.https.HttpsError(
+        "unknown",
+        "The function must be called while authenticated."
+      );
+    }
+  });
+
+export const issueCRDLFromDevProtocol = functions.https.onCall(
+  async (data: any) => {
+    try {
+      const { address, hashes, storeAll } = data;
+      if (!address) {
+        errorResponse("failed-precondition", "you must include address");
+        return;
+      }
+      const targetTokenHashes = hashes as string[];
+
+      const devProtocolTokensRef = db
+        .collection("devProtocolTokens")
+        .doc(address)
+        .collection("tokens");
+      const devProtocolTokensDocs = await devProtocolTokensRef.get();
+      const devProtocolTokensData: WorkSubjectFromERC721[] =
+        devProtocolTokensDocs.docs.map((t) => {
+          return t.data() as WorkSubjectFromERC721;
+        });
+      const targetTokens = storeAll
+        ? devProtocolTokensData
+        : devProtocolTokensData.filter((t) =>
+            targetTokenHashes.includes(t.tokenHash || "")
+          );
+
+      console.log({ targetTokens });
+
+      // update and issue crdl into ceramic
+      const updatedTokens = await issueWorkCRDLsFromERC721(targetTokens);
+      const batch = db.batch();
+      const issued: string[] = [];
+
+      console.log({ updatedTokens });
+
+      for (const token of updatedTokens) {
+        if (token.tokenId && token.streamId && token.tokenHash) {
+          batch.set(devProtocolTokensRef.doc(token.tokenHash), token, {
+            merge: true,
+          });
+          issued.push(token.streamId);
+        }
+      }
+      await batch.commit();
+
+      return { status: "ok", streamIds: issued };
+    } catch (err) {
+      console.log(err);
+      throw new functions.https.HttpsError(
+        "unknown",
+        "The function must be called while authenticated."
+      );
+    }
+  }
+);
 
 // =======Main Function=======
 

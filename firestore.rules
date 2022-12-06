@@ -76,6 +76,11 @@ service cloud.firestore {
       allow create, update, delete: if false
     }
 
+    match /devProtocolTokens/{walletAddress}/{document=**} {
+      allow get, list: if true
+      allow create, update, delete: if false
+    }
+
     //func
     function isLogin() {
       return request.auth.uid != null;

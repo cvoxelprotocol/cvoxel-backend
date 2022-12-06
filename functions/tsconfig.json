@@ -11,17 +11,13 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "strict": true,
-    "allowJs": true,
+    "allowJs": true
   },
   "lib": [
     "ESNext" /* ESNext includes new Level-4 features that were
              recently added to the ECMA-262 JS spec */
-   ],
-  "compileOnSave": true,
-  "include": [
-    "src"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "compileOnSave": true,
+  "include": ["src"],
+  "exclude": ["node_modules", "src/utils/typechian"]
 }

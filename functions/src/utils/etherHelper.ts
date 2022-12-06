@@ -27,13 +27,18 @@ import {
 } from "vess-sdk";
 import {
   WorkCredentialWithDeworkTaskId,
+  WorkCredentialWithERC721Data,
   WorkSubjectFromDework,
+  WorkSubjectFromERC721,
 } from "../types/workCredential.js";
 import {
   castUndifined2DefaultValue,
   convertDateToTimestampStr,
 } from "./commonUtil.js";
-import { cast2WorkSubject } from "./typeUtils.js";
+import {
+  cast2WorkSubjectFromDework,
+  cast2WorkSubjectFromERC721,
+} from "./typeUtils.js";
 
 export const DEFAULT_CONTEXT = "https://www.w3.org/2018/credentials/v1";
 export const EIP712_CONTEXT =
@@ -63,7 +68,7 @@ export const createWorkCRDLsFromDework = async (
     console.log("deworkTask", deworkTask.work?.summary);
     if (deworkTask.taskId) {
       const subject = convertValidworkSubjectTypedData(
-        cast2WorkSubject(deworkTask)
+        cast2WorkSubjectFromDework(deworkTask)
       );
       const crdlPromise = signAndCreateWorkCRDLFromDework(
         deworkTask.taskId,
@@ -92,6 +97,70 @@ export const signAndCreateWorkCRDLFromDework = async (
     createdAt
   );
   return { taskId, crdl };
+};
+
+export const createWorkCRDLsFromERC721 = async (
+  subjects: WorkSubjectFromERC721[]
+): Promise<WorkCredentialWithERC721Data[]> => {
+  const PRIVATE_KEY = process.env.PROXY_PRIVATE_KEY;
+  const ALCHEMY_API_KEY = process.env.ALCHEMY_KEY;
+  if (!PRIVATE_KEY || !ALCHEMY_API_KEY) {
+    throw new Error("Missing agent private key");
+  }
+  const provider = new providers.AlchemyProvider("homestead", ALCHEMY_API_KEY);
+  const wallet = new ethers.Wallet(PRIVATE_KEY);
+  const signer = wallet.connect(provider);
+  const nowTimestamp = convertDateToTimestampStr(new Date());
+
+  const crdlPromises: Promise<WorkCredentialWithERC721Data>[] = [];
+
+  console.log("wallet: ", signer.address);
+
+  for (const token of subjects) {
+    console.log("erc721 token", token.work?.summary);
+    if (
+      token.chainId &&
+      token.contractAddress &&
+      token.tokenId &&
+      token.tokenHash
+    ) {
+      const subject = convertValidworkSubjectTypedData(
+        cast2WorkSubjectFromERC721(token)
+      );
+
+      const crdlPromise = signAndCreateWorkCRDLFromERC721(
+        token.chainId,
+        token.contractAddress,
+        token.tokenId,
+        token.tokenHash,
+        subject,
+        provider,
+        signer,
+        nowTimestamp
+      );
+      crdlPromises.push(crdlPromise);
+    }
+  }
+  return await Promise.all(crdlPromises);
+};
+
+export const signAndCreateWorkCRDLFromERC721 = async (
+  chainId: number,
+  contractAddress: string,
+  tokenId: string,
+  tokenHash: string,
+  subject: WorkSubject,
+  provider: ethers.providers.AlchemyProvider,
+  signer: ethers.Wallet,
+  createdAt: string
+): Promise<WorkCredentialWithERC721Data> => {
+  const crdl: WorkCredential = await signAndCreateWorkCRDL(
+    subject,
+    provider,
+    signer,
+    createdAt
+  );
+  return { chainId, contractAddress, tokenId, tokenHash, crdl };
 };
 
 export const createWorkCRDLs = async (
@@ -130,6 +199,7 @@ export const signAndCreateWorkCRDL = async (
   if (!subject.work) {
     throw new Error("Missing work subject");
   }
+
   const agentSig = await getEIP712WorkCredentialSubjectSignature(
     subject,
     provider,
@@ -143,7 +213,6 @@ export const signAndCreateWorkCRDL = async (
     agentSig: agentSig,
     agentSigner: getPkhDIDFromAddress(signer.address),
   };
-
   const crdl: WorkCredential = {
     id: subject.work.id,
     subject,

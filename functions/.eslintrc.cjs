@@ -1,17 +1,19 @@
 module.exports = {
-  "root": true,
-  "env": {
+  root: true,
+  env: {
     es6: true,
     node: true,
   },
-  "extends": [
+  extends: [
     "eslint:recommended",
   ],
-  "rules": {
+  rules: {
     quotes: ["error", "double"],
   },
-  "parserOptions": {
-    "sourceType": "module",
+  parserOptions: {
+    sourceType: "module",
+    project: './tsconfig.json'
   },
-  "ignorePatterns": ["/node_modules/", "/lib/"],
+  ignorePatterns: ["/node_modules/", "/lib/"],
+  parser: "@typescript-eslint/parser",
 };
