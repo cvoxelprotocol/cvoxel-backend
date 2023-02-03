@@ -26,11 +26,11 @@
     "eslint-config-prettier": "^8.5.0",
     "ethers": "^5.7.1",
     "firebase-admin": "^11.0.1",
-    "firebase-functions": "^3.24.0",
+    "firebase-functions": "^4.2.1",
     "firebase-functions-test": "^2.4.0",
     "node-fetch": "^3.2.10",
     "prettier": "^2.6.0",
-    "vess-sdk": "^0.2.3"
+    "vess-sdk": "^1.0.0-alpha.7"
   },
   "devDependencies": {
     "@typechain/ethers-v5": "^10.1.0",

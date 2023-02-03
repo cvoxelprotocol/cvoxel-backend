@@ -28,6 +28,7 @@ export const removeUndefined = <T extends Record<string, any>>(
   object: T
 ): T => {
   return Object.fromEntries(
+    // eslint-disable-next-line no-unused-vars
     Object.entries(object).filter(([_, v]) => v !== undefined)
   ) as T;
 };
@@ -44,6 +45,7 @@ export const castUndifined2DefaultValue = <T extends Record<string, any>>(
   const entries = Object.entries(obj);
   let newEntries: [string, any][] = [];
   for (const t of typeFormat) {
+    // eslint-disable-next-line no-unused-vars
     const e = entries.find(([k, v]) => k === t.name);
     if (e) {
       newEntries.push(e);

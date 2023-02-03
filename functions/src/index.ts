@@ -18,7 +18,10 @@ import {
   isProd,
 } from "./utils/commonUtil.js";
 import { DeworkOrg } from "./types/Orgs.js";
-import { WorkSubjectFromDework,WorkSubjectFromERC721 } from "./types/workCredential.js";
+import {
+  WorkSubjectFromDework,
+  WorkSubjectFromERC721,
+} from "./types/workCredential.js";
 import {
   EventAttendanceWithId,
   EventWithId,
@@ -28,10 +31,10 @@ import {
   VerifiableWorkCredentialWithId,
   WorkCredentialWithId,
   Signatures,
+  OldOrganizationWIthId,
 } from "vess-sdk";
 import { createOrganization, initializeVESS } from "./utils/ceramicHelper.js";
 import {
-  issueEventAttendanceCredential,
   issueWorkCRDLsFromDework,
   issueWorkCRDLsFromERC721,
 } from "./services/WorkCredentialService.js";
@@ -58,6 +61,7 @@ import {
   DevProtocolSchema,
   getTokensMetadata,
 } from "./utils/erc721Helper.js";
+import { createEventAttendanceCredentials } from "./utils/etherHelper.js";
 
 // =====================Debug=====================
 const obs = new PerformanceObserver((items) => {
@@ -123,7 +127,7 @@ export const uploadCRDL = functions.https.onCall(async (data: any) => {
       ...crdl,
       signature: sig,
     };
-    const cRDLDocRef = db.collection("credentials").doc(`${crdl.backupId}`);
+    const cRDLDocRef = db.collection("credentials").doc(`${crdl.ceramicId}`);
     await cRDLDocRef.set(crdlWithNull, { merge: true });
     return { status: "ok" };
   } catch (err) {
@@ -172,6 +176,31 @@ export const uploadOrg = functions.https.onCall(async (data: any) => {
 
   try {
     const org = data.org as OrganizationWIthId;
+    const cRDLDocRef = db
+      .collection("organization")
+      .doc(`${removeCeramicPrefix(org.ceramicId)}`);
+    await cRDLDocRef.set(org, { merge: true });
+    return { status: "ok" };
+  } catch (err) {
+    console.log("error", err);
+    throw new functions.https.HttpsError(
+      "unknown",
+      "The function must be called while authenticated."
+    );
+  }
+});
+
+// upload old Org
+export const uploadOldOrg = functions.https.onCall(async (data: any) => {
+  if (!data.org) {
+    throw new functions.https.HttpsError(
+      "failed-precondition",
+      "you must include crdl"
+    );
+  }
+
+  try {
+    const org = data.org as OldOrganizationWIthId;
     const cRDLDocRef = db
       .collection("organization")
       .doc(`${removeCeramicPrefix(org.ceramicId)}`);
@@ -265,6 +294,41 @@ export const uploadEventAttendance = functions
       );
     }
   });
+// upload Multiple event attendances
+export const uploadMultipleEventAttendances = functions
+  .runWith({
+    timeoutSeconds: 300,
+    memory: "2GB",
+  })
+  .https.onCall(async (data: any) => {
+    if (!data.events) {
+      throw new functions.https.HttpsError(
+        "failed-precondition",
+        "you must include crdl"
+      );
+    }
+
+    try {
+      const events = data.events as EventAttendanceWithId[];
+      const cRDLDocRef = db.collection("eventattendances");
+      const batch = db.batch();
+      for (const event of events) {
+        batch.set(
+          cRDLDocRef.doc(`${removeCeramicPrefix(event.ceramicId)}`),
+          event,
+          { merge: true }
+        );
+      }
+      await batch.commit();
+      return { status: "ok" };
+    } catch (err) {
+      console.log("error", err);
+      throw new functions.https.HttpsError(
+        "unknown",
+        "The function must be called while authenticated."
+      );
+    }
+  });
 
 // issue event attendance credentials
 export const issueEventAttendances = functions
@@ -283,7 +347,7 @@ export const issueEventAttendances = functions
       const event = data.event as EventWithId;
       const dids = data.dids as string[];
 
-      const docs = await issueEventAttendanceCredential(event, dids);
+      const docs = await createEventAttendanceCredentials(event, dids);
 
       const cRDLDocRef = db.collection("eventattendances");
       const batch = db.batch();
@@ -322,6 +386,38 @@ export const uploadMembershipSubject = functions.https.onCall(
         .collection("membershipsubjects")
         .doc(`${removeCeramicPrefix(subject.ceramicId)}`);
       await cRDLDocRef.set(subject, { merge: true });
+      return { status: "ok" };
+    } catch (err) {
+      console.log("error", err);
+      throw new functions.https.HttpsError(
+        "unknown",
+        "The function must be called while authenticated."
+      );
+    }
+  }
+);
+
+export const uploadMultipleMembershipSubject = functions.https.onCall(
+  async (data: any) => {
+    if (!data.subjects) {
+      throw new functions.https.HttpsError(
+        "failed-precondition",
+        "you must include crdl"
+      );
+    }
+
+    try {
+      const subjects = data.subjects as MembershipSubjectWithId[];
+      const cRDLDocRef = db.collection("membershipsubjects");
+      const batch = db.batch();
+      for (const subject of subjects) {
+        batch.set(
+          cRDLDocRef.doc(`${removeCeramicPrefix(subject.ceramicId)}`),
+          subject,
+          { merge: true }
+        );
+      }
+      await batch.commit();
       return { status: "ok" };
     } catch (err) {
       console.log("error", err);
@@ -615,6 +711,7 @@ export const getDeworkUserTasks = functions
                   vess,
                   orgName,
                   "0x0",
+                  "0x0",
                   orgDesc,
                   orgIcon
                 );
@@ -729,6 +826,7 @@ export const reFetchDeworkUserTasks = functions
                 const orgWithId: OrganizationWIthId = await createOrganization(
                   vess,
                   orgName,
+                  "0x0",
                   "0x0",
                   orgDesc,
                   orgIcon

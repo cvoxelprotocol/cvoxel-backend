@@ -5,9 +5,8 @@ import {
   WorkSubjectFromERC721,
 } from "../types/workCredential.js";
 import { initializeVESS } from "../utils/ceramicHelper.js";
-import { EventAttendanceWithId, EventWithId, VessForNode } from "vess-sdk";
+import { VessForNode } from "vess-sdk";
 import {
-  createEventAttendanceCredentials,
   createWorkCRDLsFromDework,
   createWorkCRDLsFromERC721,
 } from "../utils/etherHelper.js";
@@ -31,29 +30,14 @@ export const issueWorkCRDLFromDework = async (
   vess: VessForNode,
   crdlsWithTaskId: WorkCredentialWithDeworkTaskId
 ): Promise<WorkSubjectFromDework> => {
-  const doc = await vess.createWorkCredential(crdlsWithTaskId.crdl);
+  const { streamId } = await vess.issueWorkCredential(crdlsWithTaskId.crdl);
 
   const updatedTask: WorkSubjectFromDework = {
     ...crdlsWithTaskId.crdl.subject,
-    streamId: doc.id.toUrl(),
+    streamId: streamId,
     taskId: crdlsWithTaskId.taskId,
   };
   return updatedTask;
-};
-
-export const issueEventAttendanceCredential = async (
-  content: EventWithId,
-  dids: string[]
-): Promise<EventAttendanceWithId[]> => {
-  try {
-    const { vess } = await initializeVESS();
-    const vcs = await createEventAttendanceCredentials(content, dids);
-    const { docs } = await vess.issueEventAttendanceCredentials(vcs);
-    return docs;
-  } catch (error) {
-    console.log(JSON.stringify(error));
-    throw new Error("Failed to create event crdl on ceramic");
-  }
 };
 
 export const issueWorkCRDLsFromERC721 = async (
@@ -76,11 +60,11 @@ export const issueWorkCRDLFromERC721 = async (
   vess: VessForNode,
   crdlsWithData: WorkCredentialWithERC721Data
 ): Promise<WorkSubjectFromERC721> => {
-  const doc = await vess.createWorkCredential(crdlsWithData.crdl);
+  const { streamId } = await vess.issueWorkCredential(crdlsWithData.crdl);
 
   const updatedToken: WorkSubjectFromERC721 = {
     ...crdlsWithData.crdl.subject,
-    streamId: doc.id.toUrl(),
+    streamId: streamId,
     chainId: crdlsWithData.chainId,
     contractAddress: crdlsWithData.contractAddress,
     tokenId: crdlsWithData.tokenId.toString(),

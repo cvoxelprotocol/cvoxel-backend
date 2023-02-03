@@ -9,12 +9,16 @@ export const createOrganization = async (
   vess: VessForNode,
   name: string,
   admin: string,
+  ethereumAddress: string,
   desc?: string,
   icon?: string,
   orbisSocialGroupId?: string
 ): Promise<OrganizationWIthId> => {
   const org: Organization = {
-    admin,
+    admin: {
+      id: admin,
+      ethereumAddress: ethereumAddress,
+    },
     name,
     desc: desc || "",
     icon: icon || "",
@@ -44,11 +48,18 @@ export const initializeVESS = async () => {
   const provider = new providers.AlchemyProvider("homestead", ALCHEMY_API_KEY);
   const wallet = new ethers.Wallet(PRIVATE_KEY);
   const signer = wallet.connect(provider);
+  const address = await signer.getAddress();
 
   const vess = getVESSForNode(!isProd());
   const session = await vess.connect(
-    signer,
+    address,
+    async (message) => {
+      const signed = await signer.signMessage(message);
+      return signed;
+    },
     isProd() ? "mainnet" : "testnet-clay"
   );
+  const sessionStr = session.serialize();
+  console.log({ sessionStr });
   return { session, provider, signer, vess };
 };
